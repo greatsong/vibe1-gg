@@ -223,7 +223,9 @@ document.getElementById('hubUrl').textContent = HUB_URL;
 document.getElementById('qr').onclick = ()=>document.getElementById('qrbig').classList.add('show');
 document.getElementById('qrbig').onclick = ()=>document.getElementById('qrbig').classList.remove('show');
 
-let DIST = [];   // 시군구 [{n,p:[[ring...]],bbox,count}]
+let DIST = [];   // 화면에 그리는 시군구 [{n,p:[[ring...]],bbox,count,gg}]
+let ALL_DIST = [];              // 전국 시군구 (경기 밖 학교가 오면 여기로 넓힌다)
+let GG_BBOX = null, NAT_BBOX = null, nationwide = false;
 let NAT = null, VIEW = null;
 const PINS = [], pinByName = {};   // 학교명 → 핀(인원수 갱신용)
 let count=0, cE=0,cM=0,cH=0;
@@ -294,7 +296,9 @@ function drawMap(){
       for(let i=0;i<ring.length;i++){ const [x,y]=P(ring[i][1],ring[i][0]); i?path.lineTo(x,y):path.moveTo(x,y); }
       path.closePath();
     }
-    ctx.fillStyle = d.count>0 ? `rgba(232,147,12,${0.20+Math.min(d.count,6)*0.11})` : 'rgba(244,200,120,.10)';
+    // 학교가 있으면 진하게. 빈 곳은 경기도를 조금 더 진하게 둬서 연수 지역이 눈에 들어오게 한다
+    ctx.fillStyle = d.count>0 ? `rgba(232,147,12,${0.20+Math.min(d.count,6)*0.11})`
+                  : (d.gg ? 'rgba(244,200,120,.10)' : 'rgba(244,200,120,.045)');
     ctx.fill(path,'evenodd'); ctx.stroke(path);
   }
 }
@@ -480,8 +484,18 @@ document.getElementById('statsBigBtn').addEventListener('click', (e)=>{
 document.getElementById('statsBig').addEventListener('click', ()=>document.getElementById('statsBig').classList.remove('show'));
 document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') document.getElementById('statsBig').classList.remove('show'); });
 
+// 경기 밖 학교가 처음 등록되면 그리는 범위를 전국으로 넓힌다 (한 번만 실행).
+// 화면을 어디에 맞출지는 건드리지 않는다 — 핀을 다 넣은 뒤 poll()의 자동 맞춤이
+// 새 핀까지 포함해서 다시 잡는다. 여기서 미리 잡으면 옛 핀 기준이라 새 핀이 화면 밖으로 나간다.
+function goNationwide(){
+  if(nationwide || !ALL_DIST.length) return;
+  nationwide = true;
+  DIST = ALL_DIST; NAT = NAT_BBOX;
+}
+
 function labelText(school,count){ return count>1 ? `${school} (${count})` : school; }
 function addPin(school,region,la,lo,kind,count){
+  if(region && !String(region).startsWith('경기')) goNationwide();
   const color=kindColor(kind);
   const el=document.createElement('div'); el.className='pin'; el.style.color=color;
   el.innerHTML=`<div class="vis"><div class="pulse" style="color:${color}"></div><div class="ripple"></div>`+
@@ -494,17 +508,24 @@ function addPin(school,region,la,lo,kind,count){
 }
 
 fetch('sigungu.json').then(r=>r.json()).then(d=>{
-  let a0=90,a1=-90,o0=180,o1=-180;
-  // 경기도 연수라 경기도 시군구(코드 31##)만 그린다 — 전국으로 되돌리려면 filter 줄을 지울 것
-  DIST = d.sigungu.filter(f=>String(f.c).startsWith('31')).map(f=>{
+  let ga0=90,ga1=-90,go0=180,go1=-180;   // 경기도 범위
+  let na0=90,na1=-90,no0=180,no1=-180;   // 전국 범위
+  // 전국 시군구를 모두 담아 두되 기본 화면은 경기도(코드 31##)만 그린다.
+  // 다른 지역 학교가 등록되면 goNationwide()가 전국 지도로 넓힌다.
+  ALL_DIST = d.sigungu.map(f=>{
     let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+    const gg = String(f.c).startsWith('31');
     for(const poly of f.p) for(const ring of poly) for(const [lo,la] of ring){
       if(lo<x0)x0=lo; if(lo>x1)x1=lo; if(la<y0)y0=la; if(la>y1)y1=la;
-      if(la<a0)a0=la; if(la>a1)a1=la; if(lo<o0)o0=lo; if(lo>o1)o1=lo;
+      if(la<na0)na0=la; if(la>na1)na1=la; if(lo<no0)no0=lo; if(lo>no1)no1=lo;
+      if(gg){ if(la<ga0)ga0=la; if(la>ga1)ga1=la; if(lo<go0)go0=lo; if(lo>go1)go1=lo; }
     }
-    return {n:f.n, p:f.p, bbox:[x0,y0,x1,y1], count:0};
+    return {n:f.n, p:f.p, bbox:[x0,y0,x1,y1], count:0, gg};
   });
-  NAT={laMin:a0,laMax:a1,loMin:o0,loMax:o1};
+  GG_BBOX={laMin:ga0,laMax:ga1,loMin:go0,loMax:go1};
+  NAT_BBOX={laMin:na0,laMax:na1,loMin:no0,loMax:no1};
+  DIST = ALL_DIST.filter(x=>x.gg);
+  NAT = GG_BBOX;
   VIEW=buildProj(NAT); render();
   kindReady.then(startPolling);
 }).catch(()=>{

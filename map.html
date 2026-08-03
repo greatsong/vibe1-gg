@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>우리 학교를 경기도 지도에! 🗺️</title>
+<title>우리 학교를 지도에! 🗺️</title>
 <style>
   :root{ --gold:#F4B400; --accent:#E8930C; --bg:#FFFDF7; --card:#FFF6E0; --border:#F0E2BC; --text:#3A2E1A; --muted:#9A8B6A; --shadow:rgba(180,140,20,.2); }
   *{box-sizing:border-box;}
@@ -88,7 +88,7 @@
 <body>
   <div class="wrap">
     <div class="emoji">🗺️📍</div>
-    <h1>우리 학교를 경기도 지도에!</h1>
+    <h1>우리 학교를 지도에!</h1>
     <p class="sub">학교를 찾고 바이브 코딩 경험·경력을 알려주면<br>앞 화면 지도에 <b>뿅!</b> 나타나요</p>
 
     <!-- 1) 학교 검색 -->
@@ -156,19 +156,27 @@ const $ = id => document.getElementById(id);
 const err = t => $('hint').innerHTML = `<span class="err">⚠️ ${t}</span>`;
 
 fetch('schools.json').then(r=>r.json()).then(d=>{
-  // 경기도 중등 연수라 경기도의 중·고만 검색 — 전국·초등까지 살리려면 filter 조건을 조정
-  SCHOOLS = d.schools.filter(s => s[1].startsWith('경기') && s[4] !== '초');
-  // SCHOOLS = d.schools;
+  // 경기도 연수지만 다른 지역 선생님도 등록할 수 있게 전국 중·고를 모두 담는다.
+  // 검색 결과는 경기도 학교가 먼저 나온다(아래 search 함수의 순위 참고).
+  // 초등까지 살리려면 뒤쪽 조건을 지울 것
+  SCHOOLS = d.schools.filter(s => s[4] !== '초');
+  const gg = SCHOOLS.filter(s => s[1].startsWith('경기')).length;
   $('q').disabled = false; $('q').focus();
   const note = (API_URL.indexOf('http')===0) ? '' : ' · (시트 연결 전 · 테스트 모드)';
-  $('hint').textContent = `경기도 ${SCHOOLS.length.toLocaleString()}개 학교 중에서 검색해요` + note;
+  $('hint').textContent = `경기도 ${gg.toLocaleString()}개 학교를 먼저 보여드려요 · 다른 지역도 검색됩니다` + note;
 }).catch(()=>err('학교 데이터를 못 불러왔어요.'));
 
 function search(q){
   q = q.trim(); if(q.length < 2) return [];
-  const st=[], inc=[];
-  for(const s of SCHOOLS){ const i=s[0].indexOf(q); if(i===0)st.push(s); else if(i>0)inc.push(s); if(st.length>=8)break; }
-  return st.concat(inc).slice(0,8);
+  const hits = [];
+  for(const s of SCHOOLS){
+    const i = s[0].indexOf(q);
+    if(i < 0) continue;
+    // 경기도 학교를 먼저, 그다음 이름 앞쪽에서 맞는 순, 그다음 짧은 이름 순
+    hits.push([ (s[1].startsWith('경기') ? 0 : 2) + (i === 0 ? 0 : 1), s[0].length, s ]);
+  }
+  hits.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  return hits.slice(0, 8).map(h => h[2]);
 }
 function renderList(){
   const list = $('list'); list.innerHTML = '';
