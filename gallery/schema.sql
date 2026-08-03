@@ -16,6 +16,7 @@ create table if not exists public.vibe1gg_apps (
   id           uuid primary key default gen_random_uuid(),
   created_at   timestamptz not null default now(),
   assignment   text not null constraint vibe1gg_apps_assignment_check check (assignment in (
+                 '연습 · 첫 웹앱',
                  'STEP 1 · 인구·고령화 지도',
                  'STEP 2 · 박스오피스',
                  'STEP 3 · AI 채팅앱',
@@ -37,6 +38,7 @@ create index if not exists vibe1gg_apps_assignment_idx on public.vibe1gg_apps (a
 alter table public.vibe1gg_apps drop constraint if exists vibe1gg_apps_assignment_check;
 alter table public.vibe1gg_apps add constraint vibe1gg_apps_assignment_check
   check (assignment in (
+    '연습 · 첫 웹앱',
     'STEP 1 · 인구·고령화 지도',
     'STEP 2 · 박스오피스',
     'STEP 3 · AI 채팅앱',
