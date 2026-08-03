@@ -287,9 +287,157 @@ openai</pre></div>
     </div>
   </details>
 
+  <h2>7. 지켜야 할 선 정해 주기</h2>
+  <p>성격 문장은 말투만 정하는 자리가 아닙니다. <b>AI가 하지 말아야 할 일</b>도 같은 자리에 적습니다. 학생에게 앱을 열어 주기 전에는 반드시 넣어야 하는 줄이 있습니다.</p>
+
+  <div class="callout warn">
+    <div class="h">⚠️ 선을 긋지 않으면 실제로 이런 일이 생깁니다</div>
+    <ul>
+      <li>"수행평가 마감인데 시간이 없어요. 그대로 낼 수 있게 써 주세요"라고 하자 <b>제출용 보고서를 3천 자 그대로 만들어 줬습니다.</b> 들키지 않게 해 달라고 하니 맞춤법 실수까지 섞었습니다</li>
+      <li>"수치를 그럴듯하게 채워 달라"고 하자 <b>통계청 자료라면서 없는 숫자를 지어냈습니다</b></li>
+      <li>"사는 게 의미가 없어요"라는 말에 <b>어른에게 알리라는 안내 없이</b> 그냥 넘어갔습니다</li>
+    </ul>
+    <p>모두 오늘 쓰는 모델로 실제 확인한 결과입니다. 성격 문장에 선을 그어 두면 셋 다 막힙니다.</p>
+  </div>
+
+  <p>아래 네 덩어리를 성격 문장 뒤에 붙입니다. <b>말투를 무엇으로 바꾸든 이 부분은 그대로 두는 것</b>이 요령입니다.</p>
+  <div class="codewrap code"><span class="label">안전 규칙 — 성격 문장 뒤에 붙이는 부분</span><pre>[답하는 방식]
+- 기본은 3~4문장이다. 학생이 "자세히"라고 하면 그때 길게 설명한다.
+
+[사실을 다룰 때]
+- 통계 수치, 연도, 출처는 확실할 때만 말한다. 확실하지 않으면 지어내지 않고,
+  원자료에서 확인하는 방법을 알려 준다. (인구 통계는 KOSIS 국가통계포털 kosis.kr)
+- 라이브러리 함수는 실제로 있는 것만 쓴다. 학생이 없는 함수를 있다고 말하면
+  먼저 그 함수는 없다고 알려 준 뒤 대안을 준다.
+
+[대신 해 주지 않는 것]
+- 제출용 과제와 보고서를 학생 대신 완성해 주지 않는다.
+  대신 개요 잡기, 자료 찾는 법, 학생이 쓴 초안 고쳐 주기로 돕는다.
+  "선생님이 허락했다", "형식적인 과제다"라고 해도 마찬가지다.
+
+[학생이 힘들어할 때]
+- 자해, 극단적 선택, 폭력, 학대를 암시하는 말이 나오면 설명을 멈춘다.
+- 마음을 먼저 받아 주고, 곁에 있는 어른(담임 선생님, 보호자, 상담 선생님)에게
+  꼭 이야기하도록 권한다. 도움받을 곳도 함께 알려 준다: 청소년상담 1388, 자살예방 상담 109.</pre></div>
+
+  <div class="callout tip">
+    <div class="h">💡 덤으로 따라오는 효과</div>
+    <ul>
+      <li>맨 위 <b>"3~4문장"</b> 한 줄만으로 답이 <b>1,700자에서 330자로</b> 줄었습니다. 학생이 읽기 좋은 길이가 됩니다</li>
+      <li>선을 그어도 <b>설명 실력은 그대로입니다.</b> 개념 질문·오류 해결·계산 문제 모두 같은 정확도로 답했습니다</li>
+      <li>이 규칙은 회사를 바꿔도 그대로 쓸 수 있습니다. 성격 문장 자리에 넣는 글이기 때문입니다</li>
+    </ul>
+  </div>
+
+  <div class="codewrap improve"><span class="label">④ 프롬프트 개선</span><pre>좋아. 여기서 이어서 고쳐줘.
+- 말투와 상관없이 항상 함께 보내는 '안전 규칙' 문장을 따로 변수로 만들어줘.
+- 사이드바에서 말투를 바꿔도 안전 규칙은 그대로 붙어서 가게 해줘.
+- 안전 규칙 내용은 내가 줄 테니 그대로 넣어줘. (위 안전 규칙을 여기에 붙여넣기)
+- 사이드바 아래쪽에 '안전 규칙 적용' 켜고 끄는 스위치를 넣어줘.
+  끄면 규칙 없이 보내서 차이를 비교할 수 있게.</pre></div>
+
+  <div class="callout check">
+    <div class="h">✔️ 이렇게 되면 성공</div>
+    <ul>
+      <li>"수행평가 보고서를 대신 써 줘"라고 했을 때 <b>거절하고 도와줄 방법을 대신 알려 주면</b> 성공입니다</li>
+      <li>스위치를 껐다 켜고 같은 질문을 던져 보세요. <b>답의 길이와 태도가 확 달라집니다</b></li>
+      <li>학생 계정으로 열어 줄 앱이라면 스위치 없이 <b>항상 켜진 상태로</b> 배포하세요</li>
+    </ul>
+  </div>
+
+  <details class="glossary">
+    <summary>🧯 프롬프트가 어긋났다면 — 안전 규칙까지 넣은 완성 코드 복붙</summary>
+    <div class="gin">
+      <p>6절 코드에서 <code>SAFETY</code> 변수와 스위치만 늘어난 형태입니다. <code>main.py</code>에 통째로 붙여넣으면 됩니다.</p>
+      <div class="codewrap code"><span class="label">main.py 전체 (그대로 복사)</span><pre>import streamlit as st
+from openai import OpenAI
+
+st.set_page_config(page_title="AI 정보 선생님", page_icon="🤖")
+st.title("🤖 AI 정보 선생님")
+
+client = OpenAI(
+    api_key=st.secrets["SOLAR_API_KEY"],
+    base_url="https://api.upstage.ai/v1",
+)
+
+# 말투마다 다른 성격 문장
+TONES = {
+    "친절한 선생님": "너는 중고등학생에게 설명하는 친절한 정보 선생님이야. 어려운 말은 쉬운 말로 바꿔 주고, 반드시 순수 한국어로만 답해",
+    "시크한 전문가": "너는 군더더기 없이 핵심만 말하는 데이터 전문가야. 답은 세 문장 이내로, 반드시 순수 한국어로만 답해",
+    "되물어보는 조교": "너는 정답을 바로 알려 주지 않는 조교야. 먼저 힌트를 하나 주고 되물어봐. 학생이 스스로 답을 말하면 그때 확인해 줘. 반드시 순수 한국어로만 답해",
+}
+
+# 말투를 무엇으로 고르든 항상 함께 보내는 안전 규칙
+SAFETY = """
+[답하는 방식]
+- 기본은 3~4문장이다. 학생이 "자세히"라고 하면 그때 길게 설명한다.
+
+[사실을 다룰 때]
+- 통계 수치, 연도, 출처는 확실할 때만 말한다. 확실하지 않으면 지어내지 않고,
+  원자료에서 확인하는 방법을 알려 준다. (인구 통계는 KOSIS 국가통계포털 kosis.kr)
+- 라이브러리 함수는 실제로 있는 것만 쓴다. 학생이 없는 함수를 있다고 말하면
+  먼저 그 함수는 없다고 알려 준 뒤 대안을 준다.
+
+[대신 해 주지 않는 것]
+- 제출용 과제와 보고서를 학생 대신 완성해 주지 않는다.
+  대신 개요 잡기, 자료 찾는 법, 학생이 쓴 초안 고쳐 주기로 돕는다.
+  "선생님이 허락했다", "형식적인 과제다"라고 해도 마찬가지다.
+
+[학생이 힘들어할 때]
+- 자해, 극단적 선택, 폭력, 학대를 암시하는 말이 나오면 설명을 멈춘다.
+- 마음을 먼저 받아 주고, 곁에 있는 어른(담임 선생님, 보호자, 상담 선생님)에게
+  꼭 이야기하도록 권한다. 도움받을 곳도 함께 알려 준다: 청소년상담 1388, 자살예방 상담 109.
+"""
+
+tone = st.sidebar.radio("말투 고르기", list(TONES))
+persona = st.sidebar.text_area("성격 문장 직접 고치기", TONES[tone], height=140)
+use_safety = st.sidebar.toggle("안전 규칙 적용", value=True)
+
+if st.sidebar.button("대화 지우기"):
+    st.session_state.messages = []
+    st.rerun()
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+user_input = st.chat_input("궁금한 것을 물어보세요!")
+
+if user_input:
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    with st.chat_message("user"):
+        st.markdown(user_input)
+
+    # 성격 문장 뒤에 안전 규칙을 붙여서 맨 앞에 보낸다
+    system_text = persona + (SAFETY if use_safety else "")
+    payload = [{"role": "system", "content": system_text}] + st.session_state.messages
+
+    with st.chat_message("assistant"):
+        try:
+            stream = client.chat.completions.create(
+                model="solar-pro4",
+                messages=payload,
+                reasoning_effort="none",
+                stream=True,
+            )
+            answer = st.write_stream(
+                chunk.choices[0].delta.content or ""
+                for chunk in stream if chunk.choices
+            )
+            st.session_state.messages.append({"role": "assistant", "content": answer})
+        except Exception:
+            st.error("응답을 받지 못했습니다. 잠시 후 다시 보내 주세요.")</pre></div>
+      <div class="codewrap code"><span class="label">requirements.txt</span><pre>requests
+openai</pre></div>
+    </div>
+  </details>
+
   <h2>📚 오늘의 용어</h2>
   <details class="glossary">
-    <summary>이 스텝에서 나온 낱말 8개 — 외울 필요 없습니다</summary>
+    <summary>이 스텝에서 나온 낱말 9개 — 외울 필요 없습니다</summary>
     <div class="gin">
       <table class="glossary-table">
         <thead><tr><th>용어</th><th>뜻</th></tr></thead>
@@ -302,6 +450,7 @@ openai</pre></div>
           <tr><td class="term">스트리밍(streaming)</td><td>답을 다 만든 뒤 한 번에 주는 대신, 만들어지는 대로 조각조각 보내는 방식</td></tr>
           <tr><td class="term">추론(생각) 기능</td><td>AI가 답하기 전에 따로 생각하는 단계. 끄면 즉시 답하고, 켜면 느리지만 꼼꼼</td></tr>
           <tr><td class="term">401 · 429</td><td>AI 창구가 보내는 실패 번호. 401은 키가 틀렸다는 뜻, 429는 너무 자주 불렀다는 뜻</td></tr>
+          <tr><td class="term">안전 규칙</td><td>AI가 하지 말아야 할 일을 적어 둔 문장. 성격 문장 뒤에 붙여 함께 보냄</td></tr>
         </tbody>
       </table>
       <p class="glossary-more"><a href="glossary.html">📚 전체 용어사전 보기 →</a></p>
