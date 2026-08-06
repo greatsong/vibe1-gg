@@ -916,6 +916,16 @@
       el.classList.toggle('shown', step >= v);
       el.classList.toggle('now', step === v && !el.hasAttribute('data-quiet'));
     }
+    saveState();
+  }
+
+  // 발표 위치 저장 — QR 페이지를 다녀오거나 새로고침해도 보던 슬라이드에서 이어진다.
+  // 처음부터 다시 시작하려면 Home 키.
+  function saveState(){
+    try{
+      localStorage.setItem('onai-keynote-pos', idx + ',' + step);
+      history.replaceState(null, '', '#' + (idx + 1));
+    }catch(e){}
   }
 
   function render(){
@@ -991,6 +1001,24 @@
   function hideHint(){ if(!hid){ hid = true; hint.style.opacity = '0'; } }
   document.addEventListener('keydown', hideHint, {once:true});
   document.addEventListener('click', hideHint, {once:true});
+
+  // 저장된 위치 복원 — URL 해시(#N)가 있으면 우선, 없으면 localStorage
+  (function(){
+    var h = parseInt((location.hash || '').replace('#', ''), 10);
+    if(h >= 1 && h <= total){
+      idx = h - 1;
+      step = maxStepOf(slides[idx]);   // 해시로 점프한 빌드 슬라이드는 완성 상태로
+    } else {
+      try{
+        var saved = (localStorage.getItem('onai-keynote-pos') || '').split(',');
+        var si = parseInt(saved[0], 10), ss = parseInt(saved[1], 10);
+        if(si >= 0 && si < total){
+          idx = si;
+          step = Math.min(isNaN(ss) ? 0 : ss, maxStepOf(slides[idx]));
+        }
+      }catch(e){}
+    }
+  })();
 
   render();
 })();

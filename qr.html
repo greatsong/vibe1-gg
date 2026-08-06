@@ -64,9 +64,18 @@
     background:rgba(255,255,255,.16); transition:background .3s var(--ease);
   }
   .dots button.on{ background:var(--ink); }
+  .back{
+    position:fixed; left:24px; top:18px; z-index:5;
+    font-size:13px; font-weight:600; letter-spacing:.06em;
+    color:var(--ink-faint); text-decoration:none;
+    padding:8px 14px; border:1px solid rgba(255,255,255,.12); border-radius:999px;
+  }
+  .back:hover{ color:var(--ink); }
 </style>
 </head>
 <body>
+
+<a class="back" href="onai-nonai-keynote.html">← 키노트로 (보던 슬라이드에서 이어짐)</a>
 
 <section class="slide s1 active">
   <div class="step"><b>①</b> 지금 바로</div>
@@ -121,7 +130,10 @@
     if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(1); }
     else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(-1); }
   });
-  document.addEventListener('click', function(){ go(1); });
+  document.addEventListener('click', function(e){
+    if(e.target.closest('a')) return;   // 키노트 복귀 링크는 넘김에서 제외
+    go(1);
+  });
   render();
 })();
 </script>
