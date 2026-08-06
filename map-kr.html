@@ -15,9 +15,9 @@
   h1{font-size:1.45rem;font-weight:800;letter-spacing:-.02em;margin:.4rem 0 .2rem;}
   .sub{color:var(--muted);font-size:.93rem;margin-bottom:16px;}
   label{display:block;text-align:left;font-size:.82rem;font-weight:800;color:var(--muted);margin:12px 2px 5px;}
-  input,select{width:100%;font-size:1.05rem;padding:.8rem .95rem;border:1.5px solid var(--border);
-    border-radius:13px;background:#fff;color:var(--text);}
-  input:focus,select:focus{outline:none;border-color:var(--gold);}
+  input,select,textarea{width:100%;font-size:1.05rem;padding:.8rem .95rem;border:1.5px solid var(--border);
+    border-radius:13px;background:#fff;color:var(--text);font-family:inherit;resize:vertical;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);}
   #q{text-align:center;}
   #list{margin-top:8px;text-align:left;}
   .pick{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;margin:6px 0;
@@ -89,7 +89,7 @@
   <div class="wrap">
     <div class="emoji">🗺️📍</div>
     <h1>우리 학교를 전국 지도에!</h1>
-    <p class="sub">학교를 찾고 바이브 코딩 경험·경력을 알려주면<br>앞 화면 지도에 <b>뿅!</b> 나타나요</p>
+    <p class="sub">학교를 찾고 과목·경력·궁금한 것을 알려주면<br>앞 화면 지도에 <b>뿅!</b> 나타나요</p>
 
     <!-- 1) 학교 검색 -->
     <div id="search">
@@ -110,16 +110,16 @@
         <button type="button" class="opt" data-v="조금 써봤어요"><span class="ic">🙂</span>조금 써봤어요</button>
         <button type="button" class="opt" data-v="자주 씁니다"><span class="ic">🚀</span>자주 씁니다</button>
       </div>
+      <label>담당 과목</label>
+      <input id="subject" placeholder="예: 정보, 수학, 국어, 과학…" autocomplete="off">
       <label>교육경력</label>
       <select id="career">
         <option value="">선택</option>
         <option>1년 미만</option><option>1~5년</option><option>6~10년</option>
         <option>11~15년</option><option>16~20년</option><option>21~25년</option><option>26년 이상</option>
       </select>
-      <label>전문성 — 분야마다 자신감만큼 눌러 주세요 <span style="font-weight:600">(선택)</span></label>
-      <div class="skill-legend">분야 구성 참고: 2022 개정 교육과정 정보과 · <a href="https://greatsong.github.io/whitehouse-science-education-report/csta-2026-standards.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:800">CSTA 2026 표준</a> · <a href="https://greatsong.github.io/whitehouse-science-education-report/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:800">과학교육 보고서</a></div>
-      <div class="skillhead"><span class="pad"></span><span class="sh"><em>자신 없음</em><i></i><em>자신 있음</em></span></div>
-      <div id="skillList"></div>
+      <label>궁금한 것 <span style="font-weight:600">(선택)</span></label>
+      <textarea id="question" rows="3" placeholder="오늘 이야기 중 궁금한 점, 듣고 싶은 이야기를 자유롭게 적어 주세요"></textarea>
       <button class="go" id="submitBtn">지도에 올리기 🚀</button>
     </div>
   </div>
@@ -201,63 +201,29 @@ vibeBtns.forEach(b=>{
   };
 });
 
-// 전문성 분야: 항목마다 자신감 1~5 중 하나를 고른다 (다시 누르면 해제)
-const FIELDS = [
-  '알고리즘·프로그래밍', '데이터 분석·데이터 과학', '인공지능·머신러닝 원리',
-  '생성형 AI 활용·AI 코드 검증', '컴퓨팅 시스템·네트워크', '정보보호·사이버보안',
-  '물리컴퓨팅', '웹·앱 개발과 배포', '디지털 문화·윤리',
-  '교과 융합 수업 설계', '수행평가·과정 중심 평가',
-];
-const skillState = {};
-function paintSkills(){
-  document.querySelectorAll('#skillList .skillrow').forEach(r=>{
-    const v = skillState[r._f] || 0;
-    r._btns.forEach((b,i)=>{
-      const filled = (i+1 <= v), chosen = (i+1 === v);
-      b.classList.toggle('on', chosen);
-      b.classList.toggle('fill', filled && !chosen);
-      b.style.background = (filled && !chosen) ? 'rgba(232,147,12,'+(0.13+i*0.13).toFixed(2)+')' : '';
-    });
-  });
-}
-(function(){
-  const box = $('skillList');
-  FIELDS.forEach(f=>{
-    const row = document.createElement('div'); row.className='skillrow';
-    const nm = document.createElement('div'); nm.className='nm'; nm.textContent=f;
-    row._f=f; row._btns=[];
-    row.appendChild(nm);
-    for(let v=1; v<=5; v++){
-      const b = document.createElement('button'); b.type='button'; b.className='sb'; b.textContent=v;
-      b.onclick = ()=>{ skillState[f] = (skillState[f]===v) ? null : v; paintSkills(); };
-      row._btns.push(b); row.appendChild(b);
-    }
-    box.appendChild(row);
-  });
-})();
-
 $('submitBtn').onclick = async ()=>{
   if(!chosen) return;
+  const subject = $('subject').value.trim();
+  if(!subject){ $('subject').focus(); $('subject').style.borderColor='var(--accent)'; return; }
   const career = $('career').value;
+  const question = $('question').value.trim();
   const btn = $('submitBtn'), orig = btn.textContent;
   btn.disabled = true; btn.textContent = '지도에 올리는 중… ⏳';   // 로딩 안내(전송에 1~2초 걸림)
   const payload = {
     sheet:'mapkr',   // 전국판 데이터는 'mapkr' 시트(탭)로
     school:chosen[0], region:chosen[1], lat:chosen[2], lon:chosen[3], vibe, career,
-    skills:      FIELDS.filter(f=>skillState[f]).map(f=>f+'='+skillState[f]).join(', '),
-    confident:   FIELDS.filter(f=>skillState[f]>=4).join(', '),
-    unconfident: FIELDS.filter(f=>skillState[f]>=1 && skillState[f]<=2).join(', '),
+    subject, question,
   };
   if(API_URL.indexOf('http') === 0){
     try{ await fetch(API_URL, { method:'POST', body: JSON.stringify(payload) }); }catch(e){}
   }
   btn.disabled = false; btn.textContent = orig;
-  showOk(chosen[0], chosen[1], vibe, career);
+  showOk(chosen[0], chosen[1], subject, career);
 };
 
-function showOk(name, region, vibe, career){
+function showOk(name, region, subject, career){
   $('okName').textContent = name; $('okRegion').textContent = region;
-  $('okMeta').textContent = [vibe, career].filter(Boolean).join(' · ');
+  $('okMeta').textContent = [subject, career].filter(Boolean).join(' · ');
   $('ok').classList.add('show');
   const E = ['🎉','✨','🎊','📍','⭐','🥳','🗺️'];
   for(let i=0;i<24;i++){
@@ -273,8 +239,8 @@ $('again').onclick = ()=>{
   $('form').style.display='none'; $('search').style.display='block';
   $('q').value=''; $('list').innerHTML='';
   vibeBtns.forEach(x=>x.classList.remove('on'));
-  $('career').value='';
-  FIELDS.forEach(f=>{ delete skillState[f]; }); paintSkills();
+  $('career').value=''; $('subject').value=''; $('question').value='';
+  $('subject').style.borderColor='';
   $('q').focus();
 };
 </script>

@@ -24,18 +24,19 @@ function getSheet_(name) {
   let sh = ss.getSheetByName(sheetName);
   if (!sh) {
     sh = ss.insertSheet(sheetName);
-    sh.appendRow(['시각', '학교', '지역', '위도', '경도', '바이브경험', '교육경력', '자신분야', '비자신분야', '전문성점수']);
+    sh.appendRow(['시각', '학교', '지역', '위도', '경도', '바이브경험', '교육경력', '자신분야', '비자신분야', '전문성점수', '과목', '궁금한것']);
   }
   return sh;
 }
 
 // 한 건 저장 (폰이 POST) — payload의 sheet 값으로 시트 선택
+// 전국판(mapkr)은 과목·궁금한것을 추가로 보낸다. 기존 열 뒤에 붙여 경기판과 호환 유지.
 function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
     const d = JSON.parse(e.postData.contents);
-    getSheet_(d.sheet).appendRow([new Date(), d.school || '', d.region || '', d.lat, d.lon, d.vibe || '', d.career || '', d.confident || '', d.unconfident || '', d.skills || '']);
+    getSheet_(d.sheet).appendRow([new Date(), d.school || '', d.region || '', d.lat, d.lon, d.vibe || '', d.career || '', d.confident || '', d.unconfident || '', d.skills || '', d.subject || '', d.question || '']);
     return out_({ ok: true });
   } catch (err) {
     return out_({ ok: false, error: String(err) });
@@ -51,17 +52,20 @@ function doGet(e) {
   const sh = getSheet_(e && e.parameter ? e.parameter.sheet : '');
   const schools = [];
   const index = {};
-  const tally = { vibe: {}, career: {}, confident: {}, unconfident: {} };
+  const tally = { vibe: {}, career: {}, confident: {}, unconfident: {}, subject: {} };
+  const questions = [];   // 궁금한 것 — 최신 순으로 보드에 보여 준다
   const scores = {};   // 분야별 [합계, 인원]
   const dist = {};     // 분야별 점수 분포 {1:n, 2:n, ...}
   if (sh.getLastRow() > 1) {
-    const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 10).getValues();
+    const rows = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
     rows.forEach(function (r) {
       const name = String(r[1]);
       if (!name) return;
-      const vibe = String(r[5]), career = String(r[6]);
+      const vibe = String(r[5]), career = String(r[6]), subject = String(r[10] || '').trim(), question = String(r[11] || '').trim();
       if (vibe) tally.vibe[vibe] = (tally.vibe[vibe] || 0) + 1;
       if (career) tally.career[career] = (tally.career[career] || 0) + 1;
+      if (subject) tally.subject[subject] = (tally.subject[subject] || 0) + 1;
+      if (question) questions.push({ school: name, subject: subject, q: question });
       addSplit_(tally.confident, r[7]);
       addSplit_(tally.unconfident, r[8]);
       addScores_(scores, r[9]);
@@ -77,7 +81,8 @@ function doGet(e) {
     tally.skillAvg[k] = Math.round(scores[k][0] / scores[k][1] * 100) / 100;
   });
   tally.skillDist = dist;
-  return out_({ ok: true, schools: schools, tally: tally });
+  questions.reverse();   // 최신이 먼저
+  return out_({ ok: true, schools: schools, tally: tally, questions: questions });
 }
 
 // '분야=점수, 분야=점수' 형태 문자열을 분야별 [합계, 인원]으로 누적

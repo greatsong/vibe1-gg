@@ -70,6 +70,10 @@
   .bar2 .bt{flex:1;height:9px;background:rgba(0,0,0,.07);border-radius:99px;overflow:hidden;}
   .bar2 .bf{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:99px;transition:width .4s;min-width:3px;}
   .bar2 .bc{width:16px;text-align:right;font-weight:800;color:var(--accent);}
+  .qi{font-size:.74rem;line-height:1.45;margin:4px 0;color:var(--text);word-break:keep-all;}
+  .qi .qm{color:var(--muted);font-weight:700;font-size:.68rem;}
+  #sbQuestions{max-height:38vh;overflow-y:auto;}
+  #sbQuestions .qi{font-size:.92rem;margin:8px 0;}
   /* 분야별 자신감 박스플롯 */
   .bxrow{display:flex;align-items:center;gap:6px;margin:4px 0;font-size:.72rem;}
   .bxrow .bn{width:96px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -158,7 +162,8 @@
     <div id="stats">
       <div class="sT">🎨 바이브 코딩 경험</div><div id="vibeBars"><div class="none2">집계 중…</div></div>
       <div class="sT two">🎖 교육경력</div><div id="careerBars"><div class="none2">집계 중…</div></div>
-      <div class="sT two">📊 분야별 자신감 (1~5 · 자신 없는 분야부터)</div><div id="skillStats"><div class="none2">집계 중…</div></div>
+      <div class="sT two">📚 담당 과목</div><div id="subjectStats"><div class="none2">집계 중…</div></div>
+      <div class="sT two">💬 궁금한 것</div><div id="qList"><div class="none2">아직 없음</div></div>
       <div class="sHint" id="sHint"></div>
       <div class="sBigBtn" id="statsBigBtn">⛶ 전체 화면으로 크게 보기</div>
     </div>
@@ -167,7 +172,8 @@
       <div class="sb-grid">
         <div class="sb-sec"><div class="sb-t">🎨 바이브 코딩 경험</div><div id="sbVibe"></div></div>
         <div class="sb-sec"><div class="sb-t">🎖 교육경력</div><div id="sbCareer"></div></div>
-        <div class="sb-sec full"><div class="sb-t">📊 분야별 자신감 (1~5 · 자신 없는 분야부터)</div><div id="sbSkill"></div></div>
+        <div class="sb-sec"><div class="sb-t">📚 담당 과목</div><div id="sbSubject"></div></div>
+        <div class="sb-sec"><div class="sb-t">💬 궁금한 것</div><div id="sbQuestions"></div></div>
       </div>
     </div>
     <a id="hubLink" href="index.html">📘 교재 열기<span class="u" id="hubUrl"></span></a>
@@ -228,7 +234,7 @@ let GG_BBOX = null, NAT_BBOX = null, nationwide = false;
 let NAT = null, VIEW = null;
 const PINS = [], pinByName = {};   // 학교명 → 핀(인원수 갱신용)
 let count=0, cE=0,cM=0,cH=0;
-let VIBE={}, CAREER={}, SKILL_AVG={}, SKILL_DIST={}, tallySig='';
+let VIBE={}, CAREER={}, SKILL_AVG={}, SKILL_DIST={}, SUBJ={}, QUESTIONS=[], tallySig='';
 // 분야 이름이 길어서 보드에서는 짧은 표기로 보여 준다
 const FIELD_SHORT = {
   '알고리즘·프로그래밍':'프로그래밍', '데이터 분석·데이터 과학':'데이터 과학',
@@ -437,11 +443,20 @@ function ordered(order,obj){
   const rest=Object.keys(obj).filter(k=>order.indexOf(k)<0 && obj[k]).map(k=>[k,obj[k]]);
   return known.concat(rest);
 }
+function subjEntries(){   // 과목은 인원 많은 순
+  return Object.keys(SUBJ).map(k=>[k,SUBJ[k]]).sort((a,b)=>b[1]-a[1]);
+}
+function drawQuestions(node, list, max){
+  if(!list.length){ node.innerHTML='<div class="none2">아직 없음</div>'; return; }
+  node.innerHTML=list.slice(0, max).map(x=>
+    `<div class="qi">"${x.q}"<span class="qm"> — ${[x.subject, x.school].filter(Boolean).join(' · ')}</span></div>`).join('');
+}
 function renderStats(){
   const f = statsExpanded ? drawBars : drawChips;
   f(document.getElementById('vibeBars'), ordered(VIBE_ORDER, VIBE));
   f(document.getElementById('careerBars'), ordered(CAREER_ORDER, CAREER));
-  (statsExpanded ? drawSkillBox : drawSkillChips)(document.getElementById('skillStats'));
+  f(document.getElementById('subjectStats'), subjEntries());
+  drawQuestions(document.getElementById('qList'), QUESTIONS, statsExpanded ? 8 : 3);
   document.getElementById('sHint').textContent = statsExpanded ? '(클릭: 숫자로 접기)' : '(클릭: 그래프로 보기)';
 }
 document.getElementById('stats').addEventListener('click', ()=>{ statsExpanded=!statsExpanded; renderStats(); });
@@ -473,7 +488,8 @@ function renderStatsBig(){
   document.getElementById('sbCount').textContent = count + '개 학교 접속';
   bigBars(document.getElementById('sbVibe'), ordered(VIBE_ORDER, VIBE));
   bigBars(document.getElementById('sbCareer'), ordered(CAREER_ORDER, CAREER));
-  bigBox(document.getElementById('sbSkill'));
+  bigBars(document.getElementById('sbSubject'), subjEntries());
+  drawQuestions(document.getElementById('sbQuestions'), QUESTIONS, 30);
 }
 document.getElementById('statsBigBtn').addEventListener('click', (e)=>{
   e.stopPropagation();
@@ -561,11 +577,12 @@ async function poll(){
       freshItems.push(r);
     });
     if(useTally){   // 사람 수 기준 집계 — 바뀐 때만 다시 그린다
-      const sig = JSON.stringify(d.tally);
+      const sig = JSON.stringify([d.tally, d.questions]);
       if(sig !== tallySig){
         tallySig = sig;
         VIBE = d.tally.vibe || {}; CAREER = d.tally.career || {};
         SKILL_AVG = d.tally.skillAvg || {}; SKILL_DIST = d.tally.skillDist || {};
+        SUBJ = d.tally.subject || {}; QUESTIONS = d.questions || [];
         renderStats();
       }
     }
