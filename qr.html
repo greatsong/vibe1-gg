@@ -8,6 +8,7 @@
   :root{
     --bg:#0A0A0B; --ink:#F4F4F2; --ink-dim:#9A9A98; --ink-faint:#5A5A5C;
     --amber:#F3B03A; --green:#5BE38B; --red:#FF7A6B; --yellow:#F3C34A; --cyan:#5AD6E6;
+    --ease:cubic-bezier(.22,.61,.36,1);
     --font:-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
            "Malgun Gothic", "맑은 고딕", "Noto Sans KR", system-ui, sans-serif;
   }
@@ -19,88 +20,110 @@
       var(--bg);
     color:var(--ink); font-family:var(--font);
     -webkit-font-smoothing:antialiased; letter-spacing:-.01em;
-    word-break:keep-all;
+    word-break:keep-all; overflow:hidden;
+  }
+  .slide{
+    position:absolute; inset:0;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:4vh 4vw; gap:4vh;
+    gap:clamp(10px,2vh,22px);
+    padding:4vh 5vw;
+    text-align:center;
+    opacity:0; visibility:hidden; transform:translateY(14px);
+    transition:opacity .6s var(--ease), transform .7s var(--ease), visibility .6s;
   }
-  h1{
-    font-size:clamp(26px,3.6vw,48px); font-weight:800; letter-spacing:-.03em;
-    text-align:center; line-height:1.2;
-  }
-  h1 small{ display:block; margin-top:10px; font-size:.42em; font-weight:500; color:var(--ink-dim); letter-spacing:.02em; }
-  .grid{
-    display:grid; grid-template-columns:repeat(3, 1fr);
-    gap:clamp(16px,3vw,44px);
-    width:min(1500px, 94vw);
-  }
-  @media (max-width:760px){ .grid{ grid-template-columns:1fr; width:min(420px,94vw); } }
-  .qr-card{
-    display:flex; flex-direction:column; align-items:center; gap:14px;
-    padding:clamp(16px,2vw,28px);
-    border-radius:20px;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.09);
-    border-top:3.5px solid var(--ink-faint);
-    text-decoration:none; color:inherit;
-  }
-  .qr-card.c-amber{ border-top-color:var(--amber); }
-  .qr-card.c-red{ border-top-color:var(--red); }
-  .qr-card.c-yellow{ border-top-color:var(--yellow); }
-  .qr-card .step{
-    font-size:clamp(12px,1vw,14px); font-weight:800; letter-spacing:.24em;
+  .slide.active{ opacity:1; visibility:visible; transform:none; }
+  .step{
+    font-size:clamp(13px,1.4vw,17px); font-weight:800; letter-spacing:.3em; padding-left:.3em;
     text-transform:uppercase; color:var(--ink-faint);
   }
-  .c-amber .step b{ color:var(--amber); } .c-red .step b{ color:var(--red); } .c-yellow .step b{ color:var(--yellow); }
-  .qr-card h2{ font-size:clamp(18px,1.7vw,26px); font-weight:800; letter-spacing:-.02em; text-align:center; }
-  .qr-card img{
-    width:100%; max-width:340px; aspect-ratio:1; display:block;
-    border-radius:14px; background:#fff; padding:2%;
+  .s1 .step b{ color:var(--amber); } .s2 .step b{ color:var(--red); } .s3 .step b{ color:var(--yellow); }
+  h2{ font-size:clamp(26px,4vw,52px); font-weight:800; letter-spacing:-.025em; line-height:1.15; }
+  .qr{
+    width:min(58vh, 78vw); aspect-ratio:1; display:block;
+    border-radius:20px; background:#fff; padding:1.6%;
   }
-  .qr-card .url{
-    font-size:clamp(11px,.95vw,14px); color:var(--ink-dim);
-    font-variant-ligatures:none; text-align:center; line-height:1.5;
-    word-break:break-all;
+  .url{
+    font-size:clamp(14px,1.8vw,24px); font-weight:600; color:var(--ink-dim);
+    font-variant-ligatures:none; word-break:break-all; line-height:1.4;
   }
-  .qr-card .tip{ font-size:clamp(12px,1vw,15px); color:var(--ink-faint); text-align:center; line-height:1.55; }
-  .foot{ color:var(--ink-faint); font-size:clamp(12px,1vw,14px); text-align:center; line-height:1.7; }
-  .foot a{ color:var(--ink-dim); }
+  .tip{ font-size:clamp(13px,1.5vw,19px); color:var(--ink-faint); line-height:1.6; }
+  .counter{
+    position:fixed; left:24px; bottom:18px; z-index:5;
+    font-size:12px; letter-spacing:.18em; color:var(--ink-faint); font-variant-numeric:tabular-nums;
+  }
+  .hint{
+    position:fixed; right:24px; bottom:18px; z-index:5;
+    font-size:12px; letter-spacing:.18em; color:var(--ink-faint);
+  }
+  .dots{
+    position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:5;
+    display:flex; gap:8px;
+  }
+  .dots button{
+    width:22px; height:8px; border-radius:99px; border:0; cursor:pointer;
+    background:rgba(255,255,255,.16); transition:background .3s var(--ease);
+  }
+  .dots button.on{ background:var(--ink); }
 </style>
 </head>
 <body>
 
-<h1>📱 폰으로 함께해요!
-  <small>카메라로 QR을 비추면 바로 열립니다</small>
-</h1>
+<section class="slide s1 active">
+  <div class="step"><b>①</b> 지금 바로</div>
+  <h2>🗺️ 우리 학교를 지도에</h2>
+  <img class="qr" src="assets/qr/map.png" alt="지도 설문 QR — greatsong.github.io/vibe1-gg/map-kr.html">
+  <div class="url">greatsong.github.io/vibe1-gg/<b>map-kr.html</b></div>
+  <div class="tip">과목·경력·궁금한 것을 알려주시면, 앞 화면 지도에 뿅! 나타나요</div>
+</section>
 
-<div class="grid">
-  <a class="qr-card c-amber" href="map-kr.html" target="_blank" rel="noopener">
-    <div class="step"><b>①</b> 지금 바로</div>
-    <h2>🗺️ 우리 학교를 지도에</h2>
-    <img src="assets/qr/map.png" alt="지도 설문 QR — greatsong.github.io/vibe1-gg/map-kr.html">
-    <div class="url">greatsong.github.io/vibe1-gg/map-kr.html</div>
-    <div class="tip">과목·경력·궁금한 것을 알려주시면<br>앞 화면 지도에 뿅! 나타나요</div>
-  </a>
+<section class="slide s2">
+  <div class="step"><b>②</b> 시연 · 이미테이션 게임</div>
+  <h2>🎭 벽 너머 상대는 사람일까, AI일까?</h2>
+  <img class="qr" src="assets/qr/turing.png" alt="이미테이션 게임 QR — ai-turing-production.up.railway.app/turing-test/">
+  <div class="url">ai-turing-production.up.railway.app/turing-test/</div>
+  <div class="tip">접속 후, 화면에 띄워 드리는 수업 코드를 입력해 주세요</div>
+</section>
 
-  <a class="qr-card c-red" href="https://ai-turing-production.up.railway.app/turing-test/" target="_blank" rel="noopener">
-    <div class="step"><b>②</b> 시연 시간에</div>
-    <h2>🎭 이미테이션 게임</h2>
-    <img src="assets/qr/turing.png" alt="이미테이션 게임 QR — ai-turing-production.up.railway.app/turing-test/">
-    <div class="url">ai-turing-production.up.railway.app/turing-test/</div>
-    <div class="tip">벽 너머 상대는 사람일까 AI일까?<br>수업 코드는 화면에서 알려드려요</div>
-  </a>
+<section class="slide s3">
+  <div class="step"><b>③</b> 시연 · 프롬프팅 챌린지</div>
+  <h2>🧠 3D 장면을 말로 설명하면, AI가 코드로!</h2>
+  <img class="qr" src="assets/qr/vpython.png" alt="VPython 프롬프트 챌린지 QR — vpython-prompt-challenge.fly.dev">
+  <div class="url">vpython-prompt-challenge.fly.dev</div>
+  <div class="tip">접속 후, 화면에 띄워 드리는 수업 코드를 입력해 주세요</div>
+</section>
 
-  <a class="qr-card c-yellow" href="https://vpython-prompt-challenge.fly.dev" target="_blank" rel="noopener">
-    <div class="step"><b>③</b> 시연 시간에</div>
-    <h2>🧠 VPython 프롬프트 챌린지</h2>
-    <img src="assets/qr/vpython.png" alt="VPython 프롬프트 챌린지 QR — vpython-prompt-challenge.fly.dev">
-    <div class="url">vpython-prompt-challenge.fly.dev</div>
-    <div class="tip">3D 장면을 말로 설명하면 AI가 코드로!<br>수업 코드는 화면에서 알려드려요</div>
-  </a>
-</div>
+<div class="counter" id="counter">01 / 03</div>
+<nav class="dots" id="dots" aria-label="QR 이동"></nav>
+<div class="hint">→ / SPACE · 다음</div>
 
-<div class="foot">
-  <a href="onai-nonai-keynote.html">← 키노트</a> · <a href="onai-nonai-showcase.html">학생 프로젝트 쇼케이스</a> · <a href="board-kr.html">지도 보드</a>
-</div>
-
+<script>
+(function(){
+  "use strict";
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var idx = 0, total = slides.length;
+  var dotsEl = document.getElementById('dots'), dots = [];
+  for(var i=0;i<total;i++){
+    (function(n){
+      var b = document.createElement('button');
+      b.setAttribute('aria-label', (n+1) + '번째 QR');
+      b.addEventListener('click', function(e){ e.stopPropagation(); idx = n; render(); });
+      dotsEl.appendChild(b); dots.push(b);
+    })(i);
+  }
+  function render(){
+    slides.forEach(function(s, n){ s.classList.toggle('active', n === idx); });
+    dots.forEach(function(d, n){ d.classList.toggle('on', n === idx); });
+    document.getElementById('counter').textContent =
+      String(idx+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+  }
+  function go(d){ idx = (idx + d + total) % total; render(); }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(1); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(-1); }
+  });
+  document.addEventListener('click', function(){ go(1); });
+  render();
+})();
+</script>
 </body>
 </html>
