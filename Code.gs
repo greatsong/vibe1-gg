@@ -1,38 +1,41 @@
-/************ 오프닝 '경기도 선생님 지도' 백엔드 (Google Apps Script) ************
+/************ 오프닝 '선생님 지도' 백엔드 (Google Apps Script) — 시트 라우팅판 ************
  * 참가자 폰이 보낸 학교·바이브 코딩 경험·교육경력(POST)을 구글 시트에 쌓고,
  * 보드가 물어보면(GET) 접속한 학교 목록과 집계를 돌려줍니다.
  *
- * 강사 준비 순서 — 기존 자격연수 스프레드시트를 그대로 쓴다 (새 파일 안 만듦)
- *  1) 자격연수 때 쓰던 스프레드시트를 연다
- *  2) 확장 프로그램 · Apps Script를 열고 이 파일 내용을 전부 붙여넣는다(덮어쓰기)
- *  3) 배포 · 새 배포 · 유형 '웹 앱' · 액세스 권한 '모든 사용자'로 배포한다
- *     — 반드시 '새 배포'로 새 URL을 만든다. 기존 배포는 버전이 고정돼 있어
- *       자격연수판 URL은 계속 옛 코드(map4 시트)로 동작한다.
- *  4) 나온 새 웹 앱 URL을 이 교재의 map.html과 board.html의 API_URL에 넣는다
+ * 이 판은 요청의 sheet 값으로 어느 시트(탭)에 쌓을지 고릅니다.
+ *  - 경기도 연수판(map.html/board.html):  sheet 없음 → 'mapgg' (기존과 동일)
+ *  - 전국 발표판(map-kr.html/board-kr.html): sheet='mapkr' → 'mapkr'
+ * 시트는 첫 전송 때 자동으로 생기며, 자격연수 데이터(map4)와 섞이지 않습니다.
  *
- * 데이터는 같은 파일 안의 'mapgg' 시트(탭)에 따로 쌓여 자격연수 데이터(map4)와
- * 섞이지 않는다. 시트는 첫 전송 때 자동으로 생긴다.
+ * 강사 준비 — 기존 자격연수 스프레드시트를 그대로 씁니다 (새 파일 안 만듦)
+ *  1) 자격연수 때 쓰던 스프레드시트 · 확장 프로그램 · Apps Script 열기
+ *  2) 이 파일 내용을 전부 붙여넣는다(덮어쓰기)
+ *  3) 배포 · 배포 관리 · 연필 아이콘 · 버전 '새 버전' · 배포
+ *     — 이렇게 하면 URL이 그대로 유지되어 경기판·전국판 둘 다 같은 URL로 동작.
+ *     ('새 배포'를 하면 URL이 바뀌므로 map*.html/board*.html 네 파일의 API_URL을 모두 교체해야 함)
  ***************************************************************************/
 
-const SHEET_NAME = 'mapgg';
+const DEFAULT_SHEET = 'mapgg';
+const ALLOWED_SHEETS = ['mapgg', 'mapkr'];
 
-function getSheet_() {
+function getSheet_(name) {
+  const sheetName = ALLOWED_SHEETS.indexOf(name) >= 0 ? name : DEFAULT_SHEET;
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sh = ss.getSheetByName(SHEET_NAME);
+  let sh = ss.getSheetByName(sheetName);
   if (!sh) {
-    sh = ss.insertSheet(SHEET_NAME);
+    sh = ss.insertSheet(sheetName);
     sh.appendRow(['시각', '학교', '지역', '위도', '경도', '바이브경험', '교육경력', '자신분야', '비자신분야', '전문성점수']);
   }
   return sh;
 }
 
-// 한 건 저장 (폰이 POST)
+// 한 건 저장 (폰이 POST) — payload의 sheet 값으로 시트 선택
 function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
     const d = JSON.parse(e.postData.contents);
-    getSheet_().appendRow([new Date(), d.school || '', d.region || '', d.lat, d.lon, d.vibe || '', d.career || '', d.confident || '', d.unconfident || '', d.skills || '']);
+    getSheet_(d.sheet).appendRow([new Date(), d.school || '', d.region || '', d.lat, d.lon, d.vibe || '', d.career || '', d.confident || '', d.unconfident || '', d.skills || '']);
     return out_({ ok: true });
   } catch (err) {
     return out_({ ok: false, error: String(err) });
@@ -41,10 +44,11 @@ function doPost(e) {
   }
 }
 
-// 접속한 학교 목록 반환 (보드가 GET). 같은 학교는 1번만, 대신 인원수(count)를 함께 준다.
+// 접속한 학교 목록 반환 (보드가 GET, ?sheet=mapkr 식으로 시트 선택)
+// 같은 학교는 1번만, 대신 인원수(count)를 함께 준다.
 // tally는 사람 수 기준 집계 — 강사가 청중 분포를 읽는 계기판.
 function doGet(e) {
-  const sh = getSheet_();
+  const sh = getSheet_(e && e.parameter ? e.parameter.sheet : '');
   const schools = [];
   const index = {};
   const tally = { vibe: {}, career: {}, confident: {}, unconfident: {} };
