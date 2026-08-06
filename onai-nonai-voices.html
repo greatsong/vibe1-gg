@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>학생들의 소감 — On AI와 Non AI 사이에서</title>
+<style>
+  :root{
+    --bg:#0A0A0B; --ink:#F4F4F2; --ink-dim:#9A9A98; --ink-faint:#5A5A5C;
+    --amber:#F3B03A; --cyan:#5AD6E6;
+    --green:#5BE38B; --red:#FF7A6B; --yellow:#F3C34A;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --font:-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+           "Malgun Gothic", "맑은 고딕", "Noto Sans KR", system-ui, sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,.035), transparent 60%),
+      radial-gradient(80% 50% at 12% 100%, rgba(91,227,139,.05), transparent 55%),
+      radial-gradient(80% 50% at 88% 100%, rgba(255,122,107,.05), transparent 55%),
+      var(--bg);
+    color:var(--ink); font-family:var(--font);
+    -webkit-font-smoothing:antialiased; letter-spacing:-.01em;
+    word-break:keep-all; overflow-wrap:break-word;
+  }
+  header{
+    max-width:1280px; margin:0 auto; padding:72px 32px 8px;
+    text-align:center;
+  }
+  .kicker{
+    font-size:13px; font-weight:500; letter-spacing:.42em; padding-left:.42em;
+    text-transform:uppercase; color:var(--ink-faint); margin-bottom:22px;
+  }
+  h1{ font-size:clamp(34px,5vw,56px); font-weight:800; letter-spacing:-.03em; line-height:1.12; }
+  h1 .green{ color:var(--green); } h1 .red{ color:var(--red); }
+  .sub{ margin-top:16px; color:var(--ink-dim); font-size:clamp(15px,1.6vw,18px); line-height:1.6; }
+  nav{
+    position:sticky; top:0; z-index:10;
+    display:flex; justify-content:center; gap:10px;
+    padding:18px 16px;
+    background:linear-gradient(var(--bg) 72%, transparent);
+  }
+  nav button{
+    font:inherit; font-size:15px; font-weight:600; letter-spacing:-.01em;
+    color:var(--ink-dim); background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1); border-radius:999px;
+    padding:9px 20px; cursor:pointer;
+    transition:color .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+  }
+  nav button:hover{ color:var(--ink); }
+  nav button[aria-pressed="true"]{ color:var(--bg); background:var(--ink); border-color:var(--ink); }
+  nav button.b-on[aria-pressed="true"]{ background:var(--green); border-color:var(--green); }
+  nav button.b-non[aria-pressed="true"]{ background:var(--red); border-color:var(--red); }
+  nav .n{ opacity:.65; font-weight:500; margin-left:.35em; font-size:.85em; }
+  main{
+    max-width:1280px; margin:0 auto; padding:16px 32px 40px;
+    columns:3 340px; column-gap:18px;
+  }
+  .quote{
+    break-inside:avoid; margin:0 0 18px;
+    padding:20px 22px; border-radius:14px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.09);
+    border-top:2.5px solid var(--ink-faint);
+  }
+  .quote.on{ border-top-color:var(--green); }
+  .quote.non{ border-top-color:var(--red); }
+  .quote[hidden]{ display:none; }
+  .quote figcaption{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .pill{
+    font-size:11.5px; font-weight:800; letter-spacing:.08em;
+    padding:3px 10px; border-radius:999px;
+  }
+  .on .pill{ color:var(--green); background:rgba(91,227,139,.12); }
+  .non .pill{ color:var(--red); background:rgba(255,122,107,.12); }
+  .badge{ font-size:12.5px; color:var(--ink-faint); letter-spacing:.02em; }
+  blockquote{ font-size:15.5px; line-height:1.72; color:var(--ink); opacity:.92; }
+  footer{
+    max-width:1280px; margin:0 auto; padding:8px 32px 80px;
+    text-align:center; color:var(--ink-faint); font-size:13.5px; line-height:1.8;
+  }
+  footer a{ color:var(--ink-dim); }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">2026 수업 나눔 · 학생들의 목소리</div>
+  <h1><span class="green">On AI</span>와 <span class="red">Non AI</span>,<br>학생들의 소감</h1>
+  <p class="sub">인공지능 기초 데이터 분석 프로젝트(On AI · 바이브 코딩)와<br>
+  VPython 프로젝트(Non AI · 손 코딩)를 마친 당곡고 학생들이 남긴 말들입니다.</p>
+</header>
+
+<nav aria-label="소감 필터">
+  <button type="button" data-f="all" aria-pressed="true">전체<span class="n">193</span></button>
+  <button type="button" class="b-on" data-f="on" aria-pressed="false">On AI<span class="n">100</span></button>
+  <button type="button" class="b-non" data-f="non" aria-pressed="false">Non AI<span class="n">93</span></button>
+</nav>
+
+<main id="grid">
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 생각보다 원하는 느낌으로 코드를 짜는것이 아니여서 조금 어려웠지만 이번기회로 AI를 활용하여 여러가지를 만들 수 있고, 뒤로갈수록 AI를 더 잘 사용하는거 같아서 좋았다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>아이디어를 생각할때 나만 생각하는 것이 아니라 이것을 하는 상대가 어떻게 생각할지 생각해보면 더 좋은 아이디어를 낼 수 있다. 그리고 기록할때 **,## 이것을 사용하면 깔끔하게 기록할 수 있다. 또한 문제 해결을 할 떄 친구들의 생각을 사용하면서 같이 해결하면 더 빨리 쉽게 해결할 수 있다는 것 또한 배웠다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>일단 팀원과 의견이 아주 많이 다른것은 당연하다고 생각합니다 그래서 저는 거기서 어떻게 하면 자세하고 정밀하게 소통을 해서 좋은 결과가 나올까 하면서 사소한 의견까지 서로 말하면서 한거 같습니다 프로젝트 아이디어를 생각하니 우리의 진로를 그림판으 비교해서 점점 다양한 기능을 추가하여 다향하게 그림을 그리는 방법을 추가하고 그리고 더욱더 많은 색깔을 추가하면 더욱더 넓은 선택지가 생겨지고 그것을 우리 진로의 빗대어 하면서 정말 재밌게 한거 같다라고 생각했다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>이제 컴퓨터 프로그래머는 정말로 사라질 것 같은 직업이란 생각이 들었다. 이렇게 간단하게 배운 일반인도 ai를 활용하여 쉽게 만드니 정말 위험하다고 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI를 활용하는데 복사 해서 붙여넣기 하니 자꾸 오류가 떠서 여러번 물어봐야 했습니다. 그래서 AI를 활용할 때는 여러번 물어보며 확인을 하고 AI에게 의존하는 것이 아니라 스스로 여러번 검토를 하고 ○○을 해야 하는 것이 중요하다고 느꼈습니다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>compound라는 묶는 함수로 코드들을 묶어서 적용할 수 있게 되었고 , axis라는 축을 만드는 함수로 도형의 축의 위치를 조정할 수 있게 되었고, cylinder라는 원기둥을 만드는 함수로 도형 원기둥을 만들수 있게되었다 , length라는 길이를 조절하는 함수로 도형의 길이를 만들 수 있게 되었다. 수행평가를 하는동안 이러한 코드를 새롭게 배웠고 다른 것을 만들때도 적용할수 있는 실용성있는 경험이 되었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>같이 협동해서 만드니까 재밌었고 다 만들고 나니 귀여웠다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>수업 시간에 배워도 잘 이해가 안되었던 부분을 정확히 알게 되었고, compound를 확실히 이해하게 되었다. 하고 싶은 것은 엄청 거대한데도 그 정도의 실력이 아니면 그렇게 만들지 못 한다는 것을 깨닫게 되었다. 앞으로 내가 하고 싶은 것을 하려면 엄청난 노력으로 실력을 키워야겠다고 생각하게 되었다. 오류를 고치면서 잘 몰랐던 것도 알게되어 재미있었다. 친구와 안맞을 때도 있었지만 타협점을 찾아 이 결과물로 만들 수 있게 되었다. 재미있었던 수행이었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 진행하며 데이터를 단순히 수집하는 것보다 그 의미를 이해하고 해석하는 과정이 중요하다는 것을 배웠다. 특히 독감 데이터를 분석하는 과정에서 자료가 무엇을 나타내는지 확인하고 적절하게 활용하기 위해 고민하면서 데이터를 비판적으로 바라보는 태도를 기를 수 있었다. 또한 정보를 효과적으로 전달하는 능력의 중요성도 느낄 수 있었다. 무엇보다 생명과학과 의료분야에 관심이 있는 나에게 이번 프로젝트는 질병 데이터를 직접 분석해 볼 수 있었던 의미 있는 경험이었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>지금까지 배웟던 코드들을 다시 복습하기도 하고 새로운 코드를 배울수 있던점이 인상깊었다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>일단 가장 고마운 건 ○○이가 제 의견을 반영해줘서 만들 수 있었으니까 그게 제일 고마웠고, 아이디어는 제 아이디어도 있었지만 ○○이 아이디어도 추가해서 되게 잘 만들 수 있었던 거 같아요!! 문제해결 과정은 코딩 책을 보거나 선생님의 도움을 받아 해결할 수 있어서 감사했고 기록 과정은 중간중간 제가 실수로 저장을 안 하고 날린 적이 있어서..ㅎㅎ 그거는 조금 반성해야 될 거 같아요..</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>인공지능을 활용하면서 조금 답답한 부분도 없지 않아 있었지만,, 결국 다 내가 설명을 잘 못한 탓이라고 생각이 든다ㅠㅠ 정말 인공지능을 잘 활용하려면 나의 어휘력도 굉장히 중요한 것 같다! 근데 진짜 인공지능 정말 똑똑이 같당ㅎ</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>진짜 기타와 비슷하게 만들려고 노력을 하다보니 다른 코드를 짤 때 보다 기타 모양을 만드는 것이 더 오래 걸렸다는 것이 신기했고 내가 직접 기타를 만들어서 기타에 프로그래밍을 했다는 것이 뿌듯했다. 처음에 책에 있는 것을 바탕으로 기타 줄의 색을 바꾸게 하는 것을 시도했을 때 기타줄이 아예 나오지 않거나 색이 나오지 않았지만 코드들의 위치를 바꾸고 오류라고 뜰 때 나오는 글을 보고 고치다 보니 문제가 해결이 되었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>chatgpt,gemini 가 뭔가 문제가 좀 많아진것같은 느낌을 받았습니다 gemini는 최근에 새로운 모델에서 멍청해지는 현상이 있다고 들어서 대략적으로 인지는 하고있었는데, chatgpt는 따로 들리는 이야기가 없어서 괜찮을줄알았는데, 프롬포트에 대한 답변 퀄리티가 많이 떨어진것같았습니다. 이에 반해 claude 에서는 충격받은점이 있습니다 웹사이트를 완성하고 read me 를 작성할때 claude에 &#x27;지금까지의 대화내역을 기반으로 리드 미 를 작성해줘&#x27; 라 했는데 데이터 전처리에 대한 대화내역이 없음에도 전처리 했다는내용이 들어가있어서 신선한 충격으로 다가왔습니다. 그래서 이번 프로젝트를 진행하는동안에는 claude 가 정말 탑이라는 생각이들었습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI를 활용하니 나 혼자서라면 할 수 없는 복잡한 코드를 빠르게 작성할 수 있었고, 또 프로젝트의 전체적인 틀을 만드는 시간도 아주 줄일 수 있었다. 하지만 AI가 제공하는 내용이 항상 정확한 것은 아니어서, 실제 데이터와 맞지 않는 부분이나 잘못된 설명이 있는 경우도 확인할 수 있었다. 그래서 AI의 답변을 그대로 사용하는 것이 아니라 직접 검증하고 ○○하는 과정이 반드시 필요하다는 점을 배웠다. 특히 공학 분야에서도 AI는 설계와 분석을 도와주는 좋은 도구가 될 수 있지만, 판단 과정에서는 사람의 이해와 검토가 필요하다고 느꼈다. 이번 활동을 통해 AI를 단순히 답을 알려주는 프로그램이 아니라 작업 효율을 높여 주는 도구로 활용하는 방법을 익힐 수 있었고, 앞으로도 필요한 부분에서는 적극적으로 활용하면서도, 결과를 스스로 확인하는 습관을 가져야겠다고 생각했다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>자유낙하 코드를 몰랐는데 자유낙하 코드를 책을 보고 이해할수있었다 또 compound도 처음 사용해봤는데 구들이 하나로 모여서 위치를 설정할수있어서 더 편리하게 코딩할수있었다 그리고 계란이 없어지는 코드도 몰라서 선생님께 물어봐서 해결할수있었다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI는 질문이 자세하고 좋을수록 더 좋은 답변을 준다는것을 알게되고 쓸모가 많다는고 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>팀원인 ○○이랑 내가 각각 관심있어하는 분야가 조화된 프로젝트를 함께 고민하고 코드를 만드는 과정이 너무 재미있었다. 파이썬을 잘하는 편이 아니라 중간중간 코드를 만드는 것이 어렵고 헷갈렸지만, 선생님께서 도와주시고 ○○이랑 같이 찾아보고 고민해보며 해결할 수 있어서 너무 뿌듯하고 만들고자 했던 것을 만들 수 있어서 기분이 좋았다. 선생님께서 준비해주신 책을 활용해 파이썬과 관련된 지식을 넓힐 수 있었다. 코드를 만들 때 어려울 때마다 ○○이가 함께 고민해주고 해결 방안을 찾아보려해줘서 너무 고마웠다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>수업시간에 만들라고 한 주제로만 만들다가 정말 내가 원하고, 좋아하는 주제로 사이트를 만드니까 뿌듯하기도 하고, 신기하다! 친구들이랑도 서로 배려하면서 잘 해낸 것 같아서 좋다. 이번 기회로 지피티에게 요청을 정말 잘 해야겠다는 생각도 들기도 했고, 코드에 따라 슉슉 변하는 페이지가 너무너무 신기했다. 중간중간에 오류가 있어서 조금 낑낑 댔지만 그래도 잘 해결한 것 같아서 너무 좋다. 나중에 또 내가 앱을 만들고 싶당ㅎㅎ 지금은 비록 학생이라 사이트 만들 일이 굳이 없을지라도 나중에 성인이 되어 수학 교사가 되면 정말 잘 활용할 것 같다! 최근에 계속 인공지능과 파트너가 되는 것을 중요시 여기는 글이 많던데 이번 기회에 그게 뭔지 조금이라도 깨달은 것 같아서 뿌듯하다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>코딩하면서 아이디어도 부족하고 하나를 적을때마다 오류가 많이 발생하였지만, 포기하지않고 차근차근 해결해나가는 과정을 거치며 프로젝트를 완성하니 매우 뿌듯했다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>협력과정에서 서로 아이디어를 의논하고 제안하는 과정이 의미있고 뜻깊었던 것 같다. 앞으로 문제가있을때 잘 해결해나갈 수 있을 것 같다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트 아이디어를 생각하는 과정에서 우리가 할 수 있는 범위 내의 제작물을 정하는 것이 어려웠다. 코딩을 잘하는 편이 아니어서 코딩을 쓰는 게 힘들었지만 완성된 결과물을 보니 뿌듯했다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI를 잘 활용하는 방법을 배우고 예전에는 못하던 나만이 사이트를 만들었다는게 뿌듯했다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>같이 협력하는 것이 무엇보다 중요한다는걸 알게되었고 기록 과정을 적는게 조금 힘들었다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>ai가 코드를 복잡하게 만들어서 다시 한번 참고만 해야겠다는 생각을 했고 아이디어는 처음에 좋아도 결과물이 생각보다 아쉽게 나올수 있다는걸 다시 한번 깨닫았다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>문제해결 과정에서 문제를 발견했을때 스스로 고민해보는 시간도 중요하다고 느꼈다. 오타를 찾아서 문제를 해결했을때 뿌듯했다. 그리고 팀 프로젝트를 할때 역할 분담이 중요하다는 것을 알게되었다. 서로 할일을 정해놓고 하니까 동시에 일이 이루어지면서 더 신속하게 진행될 수 있었던 것 같다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>팀원과 함께 과제를 진행하는데 있어 의견이 갈리고 서로의 감정이 조금씩 상하는 경우가 있었지만 프로젝트를 위해 이성적으로 진행하고 버그를 해결하는데 서로 협력하여 머리를 맞대고 고민하는 과정에서 관계가 돈독해짐을 느꼈고 기록을 남기고 다른날 그 기록을 보면 그때의 기억을 회상하며 한번씩 피식 웃게되는게 기록의 중요성을 느끼게 되었습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>깃허브라는 프로그램과 스트림릿을 활용하는 방법을 더 잘 이해하게 되었다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>에러가날때는 조금 화나고 AI가 이상한 답변을 할때 답답하기도 했지만 결국 완성을 하게되는 과정이 친구들과 협력하고 서로 보완하면서 완성하게되니까 뿌듯함을 느낀것같고 혼자했으면 어려웠을 과정이 같이 하니까 더 좋은 결과물이 ○○것같아 좋았다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>내가 얻고 싶어하는 정보를 잘만정리하면 ai가 그것을 시뮬레이터나 아니면 그래프 형태로든 다양하게 만들어 줄 수 있다는 것을 꺠달았다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai를 활용하는건 확실한 업무 효율의 증진을 보인다는 것을 알았고 여기서 문제를 ○○하는건 ai가 하는게 아주 힘들고 결국 사람이 짱이다. 라고 나는 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>어렵고 헷갈리지만 내가 직접 코드를 써서 작품을 만든다고 생각하면 내 자신이 놀랍고 자랑스러움. 매일 부족하지만 끝까지 글을 잘 써준 팀원에게도 고마움을 느낌. 아이디어는 많았지만 아직 능력이 부족해 다 구현을 못한 점이 아쉬움. 서로 협력을 잘 했고 서로의 장점을 잘 살려 이 프로젝트를 잘 한 것 같음.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>ai 한테 하나도 빠짐없이 정확하게 시켜야 정확한 답을 내놓는다는 것을 느꼈던 것 같다. 나중에 가서는 내가 원하는것을 ai에게 정확히 시키는 법을 안것같다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI한테 주문을 넣을때 디테일을 잘 넣어야 AI 답변의 퀄리티가 올라간다는 것을 확 느낀 것 같다. 그리고 AI가 코드를 너무 잘써서 신기하면서 무서웠다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>단순한 코딩이 아닌 과학적 이론을 실제로 눈에 보이게 만든 점이 흥미롭고 재미있었다. 처음에는 주제 선정도 어렵고 우리가 과연 이걸 만들 수 있을까 막막했는데 막상 만들고 나니 뿌듯하다. 초기 개발 과정에서 분자들이 한 좌표에 겹쳐 보이거나, 변수가 충돌해 원하는 대로 반응하지 않을 때가 있었는데 오류들을 ○○하면서 끈기있게 오류를 ○○하니 완성할 수 있다는 것을 알게되었다. 또한 친구와 협력하여 기록도 하며 프로젝트를 하니까 그 때 했던 부분과 오류들을 한 눈에 볼 수 있어서 좋았다. 기획부터 제작까지 직접 내 손으로 코딩을 완성하니까 좋은 경험으로 남을 것 같다. 아직 완벽한 코드는 아니기에 더 보완하여 더 ○○ 분자 생성 시뮬레이션을 만들고 싶다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 통해 아이디어를 코딩으로 구현하는 방법을 배웠다. 오류가 발생했을 때 원인을 찾고 해결하는 과정에서 문제 해결 능력을 기를 수 있었다. 또한 진행 과정을 기록하며 프로젝트를 체계적으로 관리하는 방법을 배웠고 협력의 중요성도 느낄 수 있었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI를 활용하면서 가장 크게 느낀 점은, AI가 정말 든든한 도구라는 것이다. 코드를 짜다가 막히거나 에러가 났을 때 AI에게 물어보면 원인을 빠르게 찾을 수 있었고, 어떤 방향으로 고치면 되는지 힌트를 얻을 수 있어서 작업 속도가 훨씬 빨라졌다. 하지만 동시에 AI를 무조건 믿어서는 안 된다는 것도 느꼈다. AI가 알려준 코드도 그대로 쓰면 에러가 나는 경우가 많았고, 우리 데이터의 구조를 정확히 알려주지 않으면 엉뚱한 결과를 내놓기도 했다. 결국 AI가 준 내용을 내가 직접 확인하고 ○○해야 제대로 작동했다. 그래서 AI는 일을 대신 해주는 존재라기보다, 내가 잘 활용해야 빛을 발하는 도구라는 생각이 들었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>그래더 친구들과 함께 앱을 만들어서 뜻깊은 경험이였다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>개인으로 하면 이 시간에 절대 완성을 못했는데 친구들과 같이 협력해서 만들어서 협동에 대해서 중요하다는 것을 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트 아이디어를 생각할 때 글에 관해서 쓰면 좋을 것 같아서 스무고개로 정했고 코드를 만들 때 모르거나 어려운 부분이 있을 때 애들의 도움을 받거나 책 또는 선생님에게 도움을 요청해서 잘 끝낼 수 있었습니다. 그리고 기록 과정을 적을 때 오늘 했던 내용을 다시 한번 정리하는 기분이여서 좋았고 다음에 무엇을 할지 계획도 짤 수 있어서 시간 안에 마무리 할 수 있었던 것 같습니다. 그리고 원래 제가 코드를 만드는 것인데 팀원이 더 잘 하는 것 같아서 팀원과 역할을 바꿨는데 코드를 잘 만들고 모르면 선생님께 질문하는 모습이 좋았습니다. 그리고 원래 선생님과 함께 코드를 만들었다면 이번에는 선생님의 도움은 별로 없고 팀원과 생각을 해가며 만들 수 있는 기회가 있어서 좋았습니다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>처음에 어떤걸 할지와 캐릭터를 정할때 협력해서정한후 코딩을 하기 시작했는데 처음에 캐릭터를 묶는데서 고민하다 선생님의 도움을 받아 완성했다. 코딩을 애초에 별로 안해보기도 했는데 이걸 다른 친구들과 협력해서 같이 하려다 보니까 처음엔 좀 어색했는데 점점 갈수록 계속 소통하며 의견을 맞춰가는게 뿌듯하고 색다른 경험인것같다. 우리가 하는걸 기록하는 친구에게 계속 말해주면서 기록도 꼼꼼히 마무리한것같다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>멀티페이지를 만들려면 새로운 파일을 만들고 그 파일에 코드를 작성했어야 했는데, 지금까지 main.py에 만들어달라고 했었다. 우리가 지금까지 해왔던 것이 멀티 페이지를 만드는 법인 줄 알았는데, 아니였다는 것을 알고 또한 새로운 파일을 만들고 이것저것 해야한다고 했었을 때 뭔가 막막했다. 하지만 참고 계속 만들어보니 생각보다 별 것이 아니였다는 것을 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>ai가 생각보다 PDF 파일 변환에 유용하지 않단 걸 느꼈다. 그래서 다음부터는 PDF 말고 다른 형식의 파일로 변환해서 올려야겠다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI가 다 잘하는 것이 아니기에 인간이 직접 사용하며 도구로만 사용하는 것이 가장 좋은 점이라고 생각하고 너무 의지하면 안된다고 생각한다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 복잡한 코드를 작성하거나 아이디어를 제안하는 등 다양한 부분에서 큰 도움을 줄 수 있다는 것을 느꼈다. 특히 웹사이트 제작이 서투른 학생도 AI의 도움을 받아 필요한 기능을 구현하고 문제를 해결할 수 있었다. 하지만 AI가 늘 정확한 것은 아니기 때문에 답변을 그대로 받아들이기보다 스스로 검토하고 판단하는 자세가 중요하다는 것을 배울 수 있었다. 앞으로도 AI를 적극적으로 활용하되 비판적으로 검토하는 자세를 가져야겠다고 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI가 사이트를 만드는 기능이 점점 더 성장하고있다는것을 배웠다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>데이터를 단순히 수집하는 것 보다 그 의미를 이해하고 해석하는 과정이 중요하다는 것을 배웠다. 특히 독감 데이터를 분석하는 과정에서 자료가 무엇을 나타내는지 확인하고 적절하게 활용하기위해 고민하면서 데이터를 비판적으로 바라보는 태도를 기를 수 있었다. 또한 정보를 효과적으로 전달하는 능력의 중요성도 느낄 수 있었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>ai가 불가능한 영역이 로봇이 ○○다면 진짜로 사라질 것 같은 느낌이다. 그리고 ai를 관리하는 개발자조차 이젠 밥줄을 걱정해야 될 것 같다. 이젠 진짜로 고위 정치인이나 인플루언서가 아니면 ai의 지배를 받으면서 살 수 밖에 없겠구나라는 생각이 든다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>처음에 프로젝트 아이디어를 생각할 때 외계인 모양의 캐릭터가 딱 생각나 이 캐릭터를 넣어서 할 수 있는 게임이 있을까 생각하다가 두더지 게임이 생각나 두더지 게임을 바탕으로 프로젝트를 제작했다. 하면서 문제가 많이 발생했다. 캐릭터가 들어갈 만한 상자에 원기둥모양으로 구멍을 내려 했지만 코드를 찾지 못해 구멍을 뚫지 않고 기본 모양을 잡았다. 캐릭터를 총 6개를 만들었으나 만드는 과정에서 머리부분의 좌표만 옮기고 캐린터의 다른 부분은 옮기지 않아 다시 다른 부분의 좌표를 바꿔 문제를 해결했다. 캐릭터가 전체가 올라오지 않고 머리부분만 올라갔다 내려갔다 해서 캐릭터의 코드를 compound로 묶어서 해결했다. 마지막으로 캐릭터가 랜덤으로 올라갔다 일정시간이 지나고 다시 내려오는것을 시도했지만 모든 캐릭터가 동시에 올라오고 내려가서 고치기 위해 2개로 줄이고 다시 코드를 생각하며 했지만 끝까지 해결하지 못해 많이 아쉬었다. 깃허브에 그날그날의 코딩을 한 코드를 올릴때 매 시간마다 코드를 새롭게 시도한게 눈에 보여 처음 아이디어를 구상한 대로 완성하진 못했지만 뿌듯했다. 정보B시간에는 혼자서 프로그래밍을 했다면 이번에는 친구들과 협력하고 서로의 생각을 나누며 문제를 해결하는 과정에서 협력성을 기르고 혼자가 아니어서 그런지 더 즐겁게 프로젝트를 할 수 있었다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>뭐가 머싰는걸 만드고싶은 마음에 ai를 사용했던점이 좀 크게 작용해서 다음에는 ai를 쓰지않고 좀더 괜찮은 작품을 만들고싶다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트를 처음 시작할 때 코딩 기술이 늘어난 것 같고 친구와 협력하며 코딩할 때 어려운 점을 해결해 가는 게 재밌었는데 결국 멋진 작품을 만들어 좋았다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI를 완전히 믿어서는 안되겠다라는 걸 느꼈다. 하나로 만들어 달라고 했는데도 계속 분류해서 보내는 주는걸 보고 AI도 돈을 계속 요구하려고 그러는 구나를 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>팀원과의 팀워크는 잘 맞았으나 코드 오류 ○○ 단계에서 어려움이 있었음.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>처음엔 2명은 힘들 줄 알았는데 생각보다 괜찮았고 나 혼자 하지않고 도와주면서 수행평가를 한 점이 좋았다 생각대로 안되고 어려워서 힘들었지만 해결했을 때는 기분이 좋았다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>막연하게 현대인들은 불균형하게 먹을 것이다 라고 짐작만 하던 것을 실제 데이터를 활용해 권장량과 대조하여 객관적인 문제점을 도출해 내는 뜻깊은 경험을 했습니다. 이 과정을 통해 사회적 현상을 공학적이고 통계적인 근거로 증명해 내는 탐구 프로세스를 익혔으며, 앞으로 어떤 복잡한 데이터를 만나더라도 이를 분석해 실질적인 솔루션을 제안할 수 있다는 자신감을 얻었습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai가 내가 생각하던 것보다 훨씬 더 똑똑하다는 것을 느끼고 생각보다 적은 타자로도 내 머릿속 생각과 매우 비슷하게 코딩하여 만드는 ai를 보고 감탄하였다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>처음에 ai에게 코드를 부탁 했을 땐 단순한 프롬포트로 물어봤지만 여러번 실습해보면서 내가 원하는 결과물을 만드려면 조건을 구체적으로 전달해야하는지 알 수 있었다. 또 친구의 ai답변이랑 비교해보면서도 프롬포트를 잘 만드는데에 큰 힌트를 얻을 수 있었다. 또한 오류가 발생했을 때 에러 메시지를 그대로 전달하면 AI가 원인을 짚어주는 과정을 지켜보면서 나도 자연스럽게 오류부분을 찾는 것을 배울 수 있었다. 다만 AI가 제시하는 코드를 그대로 받아들이는 것 보다도 내가 직접 코드를 확인하고 결과가 실제로 맞는지 검증하는 과정이 꼭 필요하다는 것도 느꼈다. AI는 결과를 빠르게 만들어주지만 그 결과가 정확한지 최종적으로 판단하는 책임은 결국 나에게 있다는 점을 배웠다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>인공지능이 내가 생각한것만늠 잘 움직여지지 않았고 원하는게 나오지 않으몀 계속 ○○ 하는게 어렵다고 느꼈지만 또 명령만하면 잘 돼서 명령을 하는것이 중요하다고 느꼈다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>반도체 공정기술 수요에 대해 알아보는 좀이 재미있었고 만드는데 얼마나 많은 시간이 들어가고 하나에 웹앱을 진지하게 만들기 위해서 진정성있는데이터가 가장 중요하다는 것을 느꼈다. 처음에는 스트림릿이나 깃허브를 다룬루는것이 힘들었는데 이제는코드를 ○○하고 질문하는 부분도 이해하게된것 같다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트를 정하는 것부터 고민이 많이 되었다. 그러나 팀원과 같이 이야기하고 의견을 조율하는 과정에서 서로 원활한 소통을 할 수 있었고 빠르게 프로젝트 주제를 정할 수 있었다. 문제를 해결할 때 코딩담당인 나만 문제를 해결하려고 하지 않고 팀원이 도와줌으로써 문제를 해결할 수 있었던 것 같다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이렇게 진로관한 프로젝트를 친구들과 함께 하고 같이 자료조사하고 웹사이트를 만드는 과정을 겪다보니, 재밌었고, 내가 원래 협력을 잘 못하는 편이었는데, 이 기회로 인해서 좀 더 협력을 잘할 수 있게 된것같아서 뿌듯하다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>처음에 나는 적분을 아직 교육과정 내에서 배우지 못했기에 프로젝트 주제에 대해 이해를 완전하게는 이해 못했지만 그래도 이 프로젝트를 함으로서 바늘을 던지는 간단한 행동만으로도 파이에 대한 근사를 할수 있다는것에 대해 신기했으며 그리고 중간중간 어려움(if문 반복을 for문으로 고치는것,바늘에 대한 표현을 박스로 표현해내는것,닿았는지 안닿았는지에 대한것을 sin함수를 통해 알아내는것)이 있어도 내가 그 어려움을 타개해나가는 과정이 성취감 있고 내가 나중에도 어려움이 생겨도 참을성을 갖고 문제를 해결하는 문제 해결 능력이 올라간것 같다.그리고 기록 과정에서도 내가 지금까지 한것을 보니 내 프로젝트의 성장과정을 볼 수 있어 내가 이 프로젝트를 통해 내가 문제 해결능력이 성장했고 4일차에서 사칙연산의 우선순위에 의해 발생한 오류를 통해 코드는 사소한것에서 부터 오류가 날수 있다는것을 깨달았다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>데이터만 찾으면 ai를 활용하여 원하는 웹앱을 만드는 것이 생각보다 쉽다고 느꼈고, 결과물의 완성도는 ai가 준 정보들 중에 올바른 정보들을 뽑아낼 수 있는 능력에 달린 것 같다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI를 이용한 웹앱 제작이 목적성이 확실하다면 정말 효율적이라는 사실을 깨달았다. 또한, 데이터에 의학적으로 불가능한 지표 (혈당이 0과 같은 의학적으로 불가능한) 를 결측치로 판단하고 AI에게 결측치 처리를 요청했었는데, 이를 통해 데이터를 분석하는 능력이 처음보다 많이 향상되었음을 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트 아이디어는 처음부터 생물,화학 분야와 관련된 코딩을 하고 싶어서 콘웨이의 생명 게임을 생각했지만 v python의 3차원에서는 적절하지 않은 것 같아 시뮬레이션으로 방향을 틀었다. 문제 해결 부분에서는 어려웠던 순간이 기질과 효소가 만났을 때뿐 아니라 중복으로 충돌하거나 효소가 같이 변화하는 등 여러 번 있었는데 이를 해결하기 위해서 정보 책을 찾아보고 선생님께 여쭤보고 수학 개념들을 가지고 오는 과정에서 정보 과목에서 더 성장할 수 있었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이 과정에서 조건문이랑 함수를 더 깊게 알수있어서 좋았고, 아이디어를 구상할떄 재밌었고, 친구랑 같이 협력해서 수행평가를 하니 의미있었다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai가 유용하고 똑똑하긴 해도 비판적으로 수용하는 태도가 중요함을 다시 한번 깨달았다. ai의 답변을 보고 다시 확인하는 것이 잘못된</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>데이터를 단순히 보는 것과 직접 다뤄보는 것은 완전히 다른 경험이라는 걸 깨달았다. 배포 과정에서 여러 번 오류를 마주하면서 화가 나기도 했지만 오류 메시지를 차분히 분석하고 원인을 좁혀가는 문제 해결 태도를 기를 수 있었다. 처음엔 오류가 뜨면 막막했는데 나중에는 스스로 어떻게 고쳐야 할지 생각 할 능력을 기를 수 있게 된 것 같다. 그리고 이 점이 처음에 활동 했을 때와 다르게 가장 크게 성장한 부분이라고 생각한다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI는 질문을 많이 하면 할 수록 더 좋은 결과를 주는 것 같다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>아이디어만 생각하고 만드는 걸 거의 안해서, 한편으로 ○○이에게 미안한 마음이 들어서 기분이 좋지 않았어요.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 진행하면서 많은 것을 배우고 느낄 수 있었습니다. 먼저 프로젝트 아이디어를 정하는 과정을 통해 좋은 프로젝트를 만들기 위해서는 처음 아이디어에 만족하지 않고 계속해서 개선하려는 자세가 중요하다는 것을 배웠습니다. 프로젝트를 제작하는 과정에서 문제를 만났을 때 바로 포기하기보다는 스스로 해결하려는 노력이 중요하다는 것을 알게 되었습니다. 협력 과정에서도 많은 것을 느낄 수 있었습니다. 경험을 통해 협업에서는 의사소통과 배려가 매우 중요하다는 것을 배웠고, 다양한 의견을 수용하는 자세가 좋은 결과를 만드는 데 큰 도움이 된다는 것을 느꼈습니다. 또한 프로젝트 진행 과정을 기록하면서 작업 내용을 정리하는 습관의 중요성도 알게 되었습니다. 기록을 통해 지금까지 진행한 내용을 한눈에 확인할 수 있었고, 문제가 발생했을 때 원인을 찾는 데도 도움이 되었습니다. 앞으로 어떤 프로젝트를 진행하더라도 기록을 꾸준히 남기는 습관을 가져야겠다고 생각했습니다. 이번 프로젝트를 통해 코딩 능력뿐만 아니라 문제 해결 능력, 협업 능력, 의사소통 능력까지 함께 성장할 수 있었습니다. 어려운 상황도 있었지만 팀원들과 함께 해결해 나가면서 큰 성취감을 느낄 수 있었고, 앞으로도 새로운 기술과 지식을 배우는 데 적극적으로 도전하고 싶다는 생각이 들었습니다. 이번 프로젝트는 단순히 결과물을 만드는 것에서 끝나는 것이 아니라, 스스로 성장할 수 있는 좋은 경험이 되었습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 하면서, 사실 한번 코드를 완전히 뒤엎었었다. 사실 코드짜는것에는 자신이 있어서, 금방 할 줄 알았는데, 실제 데이터를 csv파일로 넣은후, 그걸 불러들이는 형식으로 코드를 짜야했었는데, 이부분에서 코드를 짜는데에 방식에 좀 오류가 있었다. 이런 부분을 해결하고, 과학 실험에만 변인 통제를 중요시 여겼었는데, 이번 프로젝트를 통해, 이런 데이터 검증 프로젝트에서도 변인 통제를 중요시 여겨야한다는것을 깨달았다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>문제가 생겼을 때 선생님께 물어보는 것도 좋지만 처음에는 고민하는 것이 코딩에 대한 다양한 생각을 기르는데 도움이 되어서 고민을 충분히 하는 것이 좋을 것 같다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>원래 깃허브랑 스트림릿 둘 다 인공지능 기초 시간에 처음 써본거라 거의 쓸 줄 몰랐는데, 이번 프로젝트를 통해 좀 쓰는 방법을 깨달은 것 같다. 또 내가 관심있는것을 주제로 잡고 프로젝트를 만드니 과제처럼 느껴지지 않고 오히려 재미있었다. 원래 주제를 미래스포츠(AR/VR/E스포츠 등)로 잡고 만들고싶었는데 데이터를 너무 얻기가 어려워서 그냥 올림픽으로 한건 조금 아쉬웠다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>마지막에 우리가 아는 코드로 프로젝트를 만들려고 친구와 상의하며 협력했다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>처음에는 AI에게 물어보면 알아서 척척 프로그램을 다 만들어줄 줄 알았는데, AI가 해결하지 못하는 에러와 한계가 많다는 점을 배우게 되었습니다. 컴퓨터가 내놓은 결과에 오류가 없는지 인간이 직접 검증하는 &#x27;비판적 사고&#x27;가 얼마나 중요한지 깊이 느꼈습니다. 나중에 경찰관이 되어서도 과학적 치안을 위해 AI나 빅데이터 기술을 쓰게 될 텐데, 기술이 주는 자료를 무조건 믿지 않고 꼼꼼하게 검증해야 시민들의 안전을 올바르게 지킬 수 있다는 것을 배웠습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>ai를 사용하여 데이터를 분석하고 데이터를 표로 드러내는 것을 배우며 여러 데이터를 분석해 프로그램과 자료를 만드는 것을 배웠다. 어떻게 오류를 해결할지도 여러 방법을 이용해 해결하려고 노력했다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>웹을 만들면서 웹 이라는 개념에 대해 좀더 심화적으로 알수있었고 웹을 만드려면 주제를 이해해야 했기에 정보보안적 시야가 넓어진것같습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>직접 데이터를 수집하고 웹앱을 만들어 본것이 처음이다. 일반인도 이렇게 우너하는 웹앱을 ai를 활용하여 만드는 것이 정말 혁신이라고 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트를 준비하며 만드려는 웹앱의 주제를 정하기 위해 주변의 불편함을 생각해보고 고치려는 방법을 고려하는 과정에서도 충분히 성장했다고 생각하고 웹앱을 선생님이 하고 만드시는걸 바로 보고 따라하는 것이 아닌 조원과 함께 고민하고 만드는 과정에서 성장할 수 있었다고 생각한다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>요즘 AI산업이 많이 발전하면서 AI의 능력에 놀라움을 느꼈다. 인간이 직접 하려면 많은 시간이 걸리는 코드를 AI는 매우 빠른 속도로 작성하는 것이 정말 신기했다. 한편으로는 AI가 많이 발전해 많은 주목을 받는 시대상황해서 AI를 수동적으로 받아들이지 않고 주체성을 가지고 능동적으로 생각하며 비판적인 사고를 하는 것이 중요하다고 느꼈다. 또 AI를 무조건적으로 신뢰하는 태도를 경계해야한다는 생각을 하게 되었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>반복문이랑 조건문을 써야하는데 못써서 아쉬웠다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>확실히 쉬운코딩문제만 풀다가 창의성을 필요로 하는 프로젝트를 해보니 되게 힘들다는생각이들었다. 아이디어를 생각하는것도 힘들고 그 아이디어를 코딩으로 만드는건 훨씬더 어려웠다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI를 좀 더 유용하게 활용하는 방법을 배운 것 같고 AI가 말을 듣지 않으면 화를 내면 된다는 것도 배웠다. 좀 더 AI에게 명령하는 방식이 성장한 것 같다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 생각보다 원하는 바를 한 번에 구현하지 못하고 짠 코드에 오류가 발생하는 것을 보며 비판적 사고력의 중요성을 느꼈다. 그러나 원하는 바를 구체적으로 말하고 결과가 나올 때까지 ○○을 요청하면 확실히 잘 만들어줘서 편했다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>이번 프로젝트를 진행하며 AI가 복잡한 코드를 작성하거나 아이디어를 제안하는 등의 다양한 부분에서 큰 도움을 줄 수 있다는 것을 느꼈다. 웹사이트 제작이 익숙치 않아도 AI의 도움을 받아 문제를 해결할 수 있었다. 하지만 AI가 제시한 내용이 항상 정확한 것은 아니기 때문에 결과를 직접 확인하고 ○○하는 과정도 필요했다. 이를 통해 AI의 답변을 그대로 받아들이기보다 스스로 검토하고 판단하는 자세가 중요하다는 것도 배울 수 있었다. 앞으로 AI를 적극적으로 활용하되 비판적으로 검토하는 자세를 갖추어야겠다고 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>아디어어를 고를 때 무엇을 할지 고민을 많이 하다가 구로 만들 수 있는 호빵맨으로 호빵을 고르는 게임을 만들었다. 문제가 생겼을 때는 고민을 하거나 책을 살펴보거나 마지막에는 선생님께 물어보았다. 기록에 우리가 무었을 했는지 최대한 꼼꼼히 쓰려고 노력했다. 모둠 친구랑 같이 협력하며 재밌는 게임 만들기 위해 노력을 했다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>나는 코딩을 하는 것이 너무 재밌었고 글쓰는 것은 정말 싫어했는데 역할을 나누어서 프로젝트를 할 수 있어서 좋았다. 첫날에 무슨 프로젝트로 할지 정할 때 원하는 주제를 바로 정해서 그런지 그 후로 아이디어 생각이 원활하게 빨리, 많이 이루어진 것 같다. 처음 코딩 할때는 아이디어는 많이 생각했는데 실제로 할 수 있을지 고민이 많이 되었다. 또한 당연히 실행되어야 할것 같은 코드들이 오류가 계속 떠서 초반에는 진행 속도가 많이 느렸던 것 같다. 그런 과정을 거치며 오류를 고치는 과정에서 수업시간에 배웠지만 내가 그동안 잘못 이해했던 코드들도 있다는 사실을 알았다. 선생님한테 물어보는 과정에서 그동안 배웠던 코드들이 이렇게 응용되는구나도 깨달았다. 그렇게 배운 코드들을 우리가 하고 싶었던 것으로 바꾸고 또 더 응용하기도 하면서 우리 팀만의 작품을 만들어가는 과정 그 자체가 정말 재미있었고 의미가 있었다고 생각한다. 또한 내가 생각했던대로 실행이 될때 그 성취감이 정말정말 좋았다.(어려운 수학 문제를 푼 느낌?) 내가 코딩을 하면서 오류가 날때 ○○이가 같이 봐주고 원인을 찾고자 서로 노력했던 것이 좋았다. 또한 내가 코딩을 할때 기록을 잘 남겨주어서 고맙다는 말을 하고 싶다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI를 도구로서 잘 사용하여야 좋은 결과물이 ○○다는것을 알게되었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>직접 페이지 주제, 내용, 기능등을 팀원과 함께 구상하는 과정에서 주도적으로 계속 의견을 냈는데, 이 과정에서 소통능력도 성장한것 같고 AI의 답변내용을 비판적으로 바라보는 관점도 키운것 같다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>오류는 조건문의 위치랑 변수의 이름에서 제일 많이 ○○다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트에 대해서 배우면서 언래는 컴퓨터 게임도 안해서 그냥 완전 컴퓨터를 못만지는 사람이였었는데 수업을 잘 듣고 잘 따라가다보니까 살짝은 보람이 있었다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>조금 답답할때도 있지만 AI를 활용하니까 퀄리티가 좋은 결과물이 ○○것같아 좋다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를하면서 생각보다 AI사용이 어렵다는것을 느꼈다. AI에게 저세하게 질문을 해야 좋은 답변과 퀄리티가 좋은 코드가 ○○다는 것을 느꼈다. 이 기회롤 앱만드는방법을 배우고 앱만들기가 어렵다는것을 알게되었다. 당뇨병과 치매 발생이 일반인과 어디가 어떻게 다른지도 알게되었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이 프로젝트를 통해 코딩에 대해 좀 더 알게 된 것 같아서 좋았고 완성까지 팀원과 함께 각자의 위치에서 열심히 했기에 완성할 수 있었던 것 같다. 중간에 어려워서 막혔던 부분들도 조금 있었지만 팀원과함께 머리를 맞대며 토의하고 이를 통해 괜찮은 결과를 도출하니 나름 뿌듯하고 즐거운 시간이었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 사람보다 똑똑한 부분도 있다는것을 깨달앗다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>팀원끼리의 팀워크는 전체적으로 잘맞았음, 코드 오류 해결과정이 좀 힘들긴했지만 나머지는 대부분 잘 진행되서 다행이라고 생각함</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>게임 같은거는 대체 어떻게 만든거지 덜덜 하는 것과 코딩책이 생각보다 잘만들었다는것 Ai는 GPT보다 제미나이가 코딩에 더 잘 말해준다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI를 활용하면서 AI가 내가 원하는 대로 코딩을 한다는게 너무 신기했다. 미래의 AI가 기대되기도 했다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 진행하며 배운 것은 웹앱을 만드는 방법과 AI가 얼마나 코드를 잘 만드는지 그리고 이번 프로젝트의 주제인 태양광 에너지 발전량에 대해 자세히 알게 됐다. GitHub라던지 Streamlit은 처음 사용해봤는데 생각보다 간단하고 재밌어서 다음에 학교에서 어떤 웹앱관련 활동을 다시 한다면 이러한 사이트가 아니더라도 재밌게 할 수 있을거 같고, 학교가 아니더라도 내가 어떤 웹앱을 만들고 싶으면 한번 혼자서 만들어보고 싶다고 느꼈다. 그리고 AI한테 어떻게 주문을 넣어야 더 좋은 답변을 얻을 수 있는지 알게된거 같다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>내가 생각한 아이디어를 친구가 함께 만들어 주어서 완성 시킬 수 있었고 문제나 오류가 생겨도 함께 고민 하거나 책을 참고하여 하나하나 해결하는 것이 뿌듯하고 성취감이 들었다.나의 관심분야를 도와준 친구도 고맙고 함께 완성시키니 내가 상상하던 것을 실제로 구현 시켰다는 것이 감격스러웠다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>데이터를 찾아 다루면서 자세히 분석해 문제를 해결하는 과정을 이번 프로젝트를 통해서 자세하게 경험할 수 있다는 것이 좋았습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI를 사용할때 그저 AI에게 맡기는것이 아니라 주도적으로 원하는것을 명령해야지 좋은 결과가 나올수있다는 것을 깨달았습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>이번 프로젝트에서는 ChatGPT를 활용하여 데이터 분석 방법을 구상하고 Streamlit 웹앱 코드를 작성하는 데 도움을 받았다. AI를 활용하니 아이디어를 빠르게 얻고 코드를 작성하는 시간이 크게 줄어들어 프로젝트를 효율적으로 진행할 수 있었다. 하지만 AI가 제공한 코드가 항상 정확한 것은 아니었고, 실제 데이터 형식과 맞지 않아 오류가 발생하는 경우도 있었다. 따라서 AI의 답변을 그대로 사용하는 것이 아니라 직접 데이터를 확인하고 오류를 ○○하며 검증하는 과정이 필요하다는 것을 배웠다. 이번 프로젝트를 통해 AI는 문제 해결을 도와주는 유용한 도구이지만, 최종적인 판단과 결과 검증은 사람이 직접 해야 한다는 점을 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai가 이젠 개발자들의 손에서도 벗어나고 있는 느낌이 들었고, 문과로 살면 이러한 ai를 활용할 일이 없을 줄 알았는데 문과여도 ai를 적극 활용하여야 현대사회에서 밥벌이 할 수 있을 것같다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>read me를 다시 만들때 살짝 애를 먹었지만 main.py를 만들때는 멀티페이지까지 있었지만 많은 도움을 받았다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>지금까지 배운 내용들을 전부다 써먹으려고 쥐어짜니까 꽤 멋진 결과물이 나와서 굉장히 뿌듯했고 제가 원하는대로 결과물이 탄생하니 너무 신기하고 재밌었습니다. 이번 수행평가를 통해서 팀원들과 잘 소통하는 법을 성장시킬 수 있었고 지금까지 배운 내용을 완벽히 체화한 것 같습니다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>핑퐁 게임 제작 과정을 일지로 기록하며 활동 내용을 정리해 볼 수 있었고, 작은 변화도 꾸준히 기록하는 것의 중요성을 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>원래 오류 뜨면 망했다 싶어서 포기하는데... 오류에도 포기하지 않고 다시 해보는 거!! 그런 부분에서 성장한 것 같습니다 그리고 ai 활용법을 잘 몰랐는데 파일 넣는 법이나 그런 것도 새롭게 알게 되어서 나중에도 너무너무 유익하게 ai를 활용할 수 있을 것 같아요!</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 진행하면서 AI를 활용해 프로그램을 만드는 방법을 배웠다. 처음에는 코딩이 어렵게 느껴졌지만, AI의 도움을 받아 코드를 작성하고 ○○하면서 프로그램이 어떻게 만들어지는지 조금 더 이해하게 되었고 우리도 웹페이지를 만들수있다는 사실도 알게되었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 확실히 코딩을 너무 잘해서 앞으로 미래 사회에는 코딩을 단순히 잘하는 사람보다는 AI를 활용하여 어떻게 질문을 넣어주는지가 중요한 사회가 될 것 같습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>팀원들과 협동하며 함께 프로젝트를 완성 함으로써 같이 이끌어가는 능력을 얻게 되었고, 조금 더 팀원끼리 끈끈해지는 계기가 되었고 나중에 다른 프로젝트를 만들어야 할때 다시 같이 해보고 싶다는 생각이 들었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>코딩을 하는과정에서 지금까지 배웠던 코드를 복습하면서 코딩을 할수있던점이 가장 인상깊었던 점이다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>코딩 특성상 하나만 틀려도 코딩이 실행되지 않는다. 그래서 이에 대한 문제점이 많이 일어났었고 같이 머리를 맞대고 고민하고 고민하는 과정에서 코드가 하나씩 실행됨에 따라 생기는 뿌듯함과 서로를 이해하고 한 분야에 대해 심화 탐구를 하고 이를 구현하면서 나를 한층 더 성장시킬 수 있음에 좋았다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>게임을 직접 만들어 보면서 반복문, 조건문, 리스트, 함수를 언제 쓰는지 대충 알게 되었다. 코드가 안 될 때 한 줄씩 보면서 고치는 게 중요하다는 것도 배웠다. 그리고 친구와 함께 하니까 부담감도 줄어들고 오류가 발생했을때도 함께 협력해 나가니까 코딩을 더 이해하게 된 것 같다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>생각보다 게임 만드는게 더 어렵고 아이디어도 생각하는게 생각보다 어렵다 근데 ○○이랑 같이 상의해서 만들어보는것도 재밌었고 스스로 해보니까 코딩에 대해 좀 더 알게 되었다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>코딩은 어렵게 쓸 수록 좋다고 생각했는데 하면서 오히려 간단하게 나타내느 것이 훨씬 더 좋다는 것을 느꼈고 프로젝트 아이디어를 생각하면서 팀원끼리 생각을 나눈 시간들이 재밌었다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트 아이디어를 생각할 때는 둘이 의견이 잘 맞아서 빠른 속도로 진행 할 수 있었다. 또한 문제 해결 과정에서 나는 평소에 모르는 부분이 있으면 바로 포기하는 편이였는데, ○○이는 자신이 모르는 부분이 있으면 끝까지 고민하다 해결하는 모습을 보며 나도 앞으로 모르는게 있다고 포기하지 말고 끝까지 노력해야한다는 것을 배울 수 있었다. 그리고 내가 코딩을 잘하지 못해서 ○○이가 코딩한걸 이해하지 못하는 경우가 종종 있었는데 그럴 때마다 답답해하지 않고 자세하게 내가 이해가 될 때까지 잘 설명해준 것이 참 고마웠다. 기록 과정에서는 ○○이가 열심히 코딩한 걸 어떻게 해야 잘 글로 담아낼 수 있을까 고민이 많이 되었다. 그래서 내 나름대로 열심히 작성했다. 작성이 끝난 글을 보니 지난 날들이 떠오르며 괜스레 뿌듯해졌다. 이번 프로젝트를 통해 협력이 중요하다는 것을 여실히 느낄 수 있었다. 코딩을 잘하는 ○○이는 코딩을 집중적으로 하고, 글을 잘 쓰는 나는 기록담당을 하면서 짧은 시간 안에 우리가 만들고 싶었던 것들을 완성할 수 있었던 것 같다. 앞으로도 이런 팀 프로젝트가 있다면 이번에 했던 것처럼 협력하면서 해야겠다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>이 친구가 정말 똑똑하다. 그리고 그렇기 때문에 끌려다니기만 해서는 안되겠다는 것을 느꼈다. AI는 많은 것을 할 수 있지만, 사용자가 원하는 것을 정확하게 짚어내지는 못한다. 때문에 내가 AI의 방향성과 목적을 확실하게 정의해야한다. 이를 위해선 AI가 제공한 자료와 말을 비판적으로 바라보고 직접 검증해야한다는 것을 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI를 사용할 떄 주의할점과 어떻게 프롬포트를 작성하면 더 좋은 답과 원하는 내용이 나오는지 알았다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>파이썬을 접할 기회가 많이 없다보니까 조금 어려웠지만 조원과 같이 하고 기록하니까 조금은 더 알아가게 되는거 같고 기록도 하면서 지난시간도 돌아볼수있어서 좋았고 막힌점도 해결책을 찾아서 해결하고 이런식으로 활동을 같이 해서 좋았던거 같다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>친구와 아이디어를 생각하고 머리를 대고 열심히 생각해 어려운 문턱도 짧은 시간안에 금방 넘어선 부분에서 나는 어려운것을 만났을때 협력해서 해결하는 방법을 깨달았다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>좀더 준비를 하고 열심히 했다면 더 높은 점수를 받았을수 있지 않을까라는 생각을 해본다 그래도 전반적으로 재밌게 한 것 같아서 좋았고 이렇게 진로를 섞어서 할수 있다는게 기뻤다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>아니 내가 어떻게 말하던 다 알아듣고, 답을해줄줄알았는데, 생각보다 내 말을 너무 못알아 들어서 답답했다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>코딩을 하며 생기는 어려움을 해결하는 과정에서 친구와 협동심도 올라가고 서로 문제점을 도와주며 어려운 점을 도왔던 것 같다. 이런 프로젝트를 통해 친구와 더우 가까워지고 더욱 친근하게 코딩에 대해 배운 것 같다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 통해 프로그램 개발에서는 코딩뿐만 아니라 아이디어를 구상하고 문제를 해결하는 과정도 매우 중요하다는 것을 배웠습니다. 특히 모르는 내용을 책에서 찾아보고 직접 적용해 보면서 자기주도적으로 학습하는 능력을 기를 수 있었습니다. 또한 팀원들과 의견을 나누며 협력하는 과정에서 다양한 생각을 공유할 수 있었습니다. 경영학에서도 문제를 분석하고 가장 효율적인 해결 방법을 찾는 과정이 중요한데, 이번 프로젝트 역시 이러한 과정을 직접 경험해 볼 수 있는 좋은 기회였습니다. 앞으로도 논리적으로 문제를 분석하고 해결하는 능력을 더욱 발전시키고 싶습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 통해 사회 문제를 데이터로 객관적으로 분석하는 방법을 배울 수 있었다. 뉴스나 인터넷의 다양한 주장만 믿기보다 실제 데이터를 분석해 근거를 확인하는 것이 중요하다는 점을 느꼈다. 또한 데이터를 수집하고 전처리하는 과정이 분석 결과에 큰 영향을 준다는 것을 알게 되었고, Python과 Streamlit 등을 활용해서 데이터를 시각화하는 능력도 향상된 것 같다! ChatGPT를 활용해 코드 작성과 아이디어를 얻었지만, 결과를 그대로 사용하지 않고 공공데이터와 비교하며 직접 검증하는 과정을 거치면서 AI를 비판적으로 활용하는 능력도 기를 수 있었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI에게 질문을 할때는 최대한 자세히 해야하며 공신력있는 자료를 찾는것을 배울수 있었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 진행하면서 단순히 데이터를 모으고, 웹앱을 빠르게 만들어내는 것보다 어떤 데이터를 선택하고 비교할지 결정하는 과정이 훨씬 중요하다는 것을 배웠다. 처음에는 지역별 물맛의 차이에 대한 데이터를 쉽게 찾을 수 있을 것이라고 생각했지만, 실제로는 지역마다 있는 데이터의 종류와 기준이 달라 같은 조건으로 비교하기 어려웠다. 그래서 팀원과 함께 어떤 성분을 기준으로 분석할지 고민하고, 공통적으로 있는 데이터를 중심으로 정리했다. 이런 경험을 통해 데이터를 그냥 받아들이기만 하는 것이 아니라, 필요한 정보를 선별하는 능력이 중요하다는 것을 느꼈다. 또한 내 진로인 기계공학 분야에서도 데이터를 활용한 분석 능력이 필수적이라는 것을 다시 한번 깨달았다. 기계 성능 시험이나 부품의 내구성 평가처럼 다양한 측정값을 비교하고 해석해야 하는 때가 많을 것인데, 이번 프로젝트에서 데이터를 정리하며 의미를 찾는 경험이 미래에 도움이 될 것이라고 생각했다. 평소에는 막연하게 생각했던 데이터 분석 과정을 직접 경험하면서 문제 해결 능력과 협동 능력도 함께 성장할 수 있었던 의미 있는 프로젝트였다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 내가 프롬포트를 입력하는대로 잘 만들어 주긴 하지만 자잘자잘한 오류도 꽤 많고, 내 말을 잘 못 알아들을때도 있었다. 그래서 답답한 부분도 있었지만 내가 원하는 웹앱을 AI한테 하는 한 마디 해서 AI가 바로 코드를 짜줄만큼 AI가 발전했다는 사실이 놀라웠다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>질병관리청의 20개년이 넘는 방대한 국민건강영양조사 데이터를 수집하고 가공하는 과정에서, AI의 연산 및 코드 생성 능력을 활용하여 데이터 전처리 시간을 획기적으로 단축할 수 있었습니다. 날짜 포맷을 통일하거나 결측치를 식별하는 번거로운 반복 작업을 AI와 협업하여 빠르게 해결하면서, 단순 노동에 드는 에너지를 줄이고 데이터가 가진 본질적인 의미를 해석하는 데 더 많은 시간을 투자할 수 있다는 점이 놀라웠습니다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>장애물의 위치가 y축으로도 랜덤으로 움직여서 그 코딩의 줄을 ○○하고 콘이 어디 위치까지만 움직이게 할지 제한을 걸었다. 생각나지 않은 오류가 몇 개 더 있는데 그런 사소한 문제를 해결할 때마다 해냈다는 성취감이 들었다. 하루하루 마다 우리 팀이 한 과정들을 기록함으로써 그 전 시간에 무엇을 했는지 이번 시간엔 무엇을 해야 하는지 상기되어서 길을 잘 찾아갈 수 있었다. 내가 코딩을 하고 ○○가 일지를 작성하면서 호흡이 잘 맞았고 내가 작성한 코딩에 오류가 있을 때가 많이 있었는데 그때마다 ○○와 어떻게 하면 해결할 수 있을지 대화를 하면서 차근차근 풀어나갔다. 이걸 만들었다는 게 믿기지 않을 정도로 우리가 대단하다고 생각했다ㅎㅎ</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai를 활용할 때 프롬프트를 잘 작성 해야한다는 것을 느꼈다. 그래서 새로운 질문을 할 때마다 어떻게 내 의도를 정확하게 서술하고 전달할 수 있을지 깊게 생각해보게 되었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>우리 모둠이 코드 오류가 많이 났어서 AI에게 질문을 많이 하면서 AI를 통해 코드를 만들때도 어떻게 명령하느냐가 중요하다는것을 느꼈습니다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>코딩하는 것이 익숙하지 않았는데 확실히 친구랑 상의를 하여 직접 만들어보니 이해도 오히려 잘되고 합을 맞춰 해결하고 그 날만든것을 전부 기록하는것도 힘들었지만 기록만하는거는 뭔가 하는게 없는거 같아서 정말 열심히 썼다 그래서 쌤이 AI 쓰고했냐라고 최고의 칭찬을 들어서 기분이 좋았다 ㅎㅎ 다음에도 계기가 되면 또 하면 좋겠다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝스 아이디어부터 문제해결을 하는 과정으로 생긴 어려움을 해결하는 것이 좀 스트래스 받았지만 재밌었고, 인생은 정렬된 코딩같다는 생각을 하였다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>가장 크게 느낀점은 AI가 정말 많이 발전했다는 점이다. 몇년전까지만해도 AI가 생성한것이라고 해봐야 샘 스미스가 스파게티를 먹는 영상이라던지 정말 하찮고 부질없는 것들 뿐이었는데, 지금은 AI가 사람은 수시간, 길게는 수일에 걸쳐 만들어낼만한 정교한 코딩을 고작 몇분만에 만들어버리니 이 부분이 가장 체감이 될수밖에 없었다. 하지만 또 느낀 점은 AI가 정말 중요하게 사용되지만, 결국 사용하는 주체는 인간이라는 점이었다. AI가 큰 틀을 만든다면 디자인, 세세한 실수, 그리고 보는 사람의 취향. 이런 것들은 사용하는 사람만이 할수있고 AI에게 명령을 내릴수있는 것이기에 정말 중요하다 느끼게 되었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>나의 아이디어가 엄청 좋은지는 몰랐지만 높은 점수를 받아서 &quot;나의 아이디어가 좋구나&quot; 라고 느꼈다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이것으로 협동력에 대해 더 잘 알게 되었다. 문제해결 능력도 조금 늘은거 같기도 하다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>친구의 진로와 나의 진로를 합쳐 만들 프로그램 아이디어를 생각하는 과정에서 창의력이 키워졌고 어려운 코딩을 조언들을 통해서 해결해가는 과정에서 문재해결능력과 협력능력이 향상되었다. 또한 기록하는 과정에서 오늘은 내가 뭘 해결했고 어떻게 발전했는지 통찰할 수 있었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트를 진행하며 팀원과 의견 충돌도 있고 주제 선택에 어려움도 있었지만 의사소통과 이해를 통해 극복해 나가 프로젝트를 잘 완성한 것에서 협력의 중요함을 느꼈고 뿌듯함과 성취감을 느꼈습니다.또한 코딩을 하며 모르는 부분을 찾아보는 과정에서 코딩에 대한 이해가 전보다 더 늘었다고 느꼈습니다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이런 계기로 다양한 코드로 배워서 재밌었고 천왕성이 태양 주변을 도는걸 깨달았다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>함께 데이터를 찾고, AI를 활용하고, 배운 내용을 활용해 사이트를 만들며 협력의 중요성과 역할 분담의 장점을 확실히 느낄수 있었다. 그리고 다른 친구들이 열심히 하는 모습을 보며 나를 성찰하고 더 잘 하기 위해 노력하는 자세를 가질수 있었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트 아이디어를 생각할때 내 진로랑 관련있는걸 만들고 싶은데 어떤걸 만들지 많이 고민했고, 선생님께 물어보고 계속 시도해보며 문제를 해결하려고 노력했다. 잘 안되어도 여러번 도전하면서 결국엔 우리가 원하는걸 만드는데 성공했을때 뿌듯했다. 프로젝트를 만들면서도 계속 기록하고 어려움이 생기거나 그 어려움을 해결하면 바로 기록하고 다음에는 어떤걸 보완하고 만들지 같이 의논하면서 협력을 했다. 친구가 코딩하는걸 힘들어하고 잘 안된다하면 같이 머리를 밎대고 고민하며 코딩을 했다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 하면서 느낀건, 원래도 그렇게 생각해왔지만 AI만 있으면 웹사이트가 한 번에 뚝딱 만들어진다는 생각은 틀렸다는 것 이다... 그 전에 해야 할 일이 산더미였다. 일단 쓸 만한 데이터를 찾는 것부터 쉽지 않았다. 겨우 찾으면 PDF로 돼 있어서 다시 CSV로 바꿔야 했고, 표가 깨지거나 숫자에 쉼표와 이상한 기호가 섞여 있어서 정리하는 데만 한참이 걸렸다. 데이터 하나를 제대로 만들기 위해 몇 번이나 다시 손봐야 했다. 코드도 마찬가지였다. AI한테 코드를 받아도 그대로 쓰면 에러가 났다. 글자가 안 보이거나, 버튼을 누르면 멈추거나, 컬럼 이름이 안 맞아서 또 에러가 나는 일이 반복됐다. 결국 내가 데이터 구조를 정확히 이해하고 하나하나 고쳐야 제대로 작동했다. 그 과정이 답답하기도 했지만, 여러 번 다시 시도한 끝에 작동하게 만들었을 때는 뿌듯했다. 이 과정에서 느낀 건, AI는 정말 편리한 도구지만 아직 내 일을 전부 대신해주지는 못한다는 점이다. 데이터를 찾고 정리하고, 무엇이 잘못됐는지 판단하는 건 결국 사람의 몫이었다. 오히려 AI를 잘 쓰려면 내가 더 많이 알아야 한다는 걸 깨달았다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 통해서 직접 사이트를 만들어보고 자료를 수집하여 문제를 해결해보면서 앞으로 문제를 해결할 때에서 쓸 방법 중 한 가지 방법을 새로 배운 것 같습니다. 수행평가를 잘 마무리하지 못했는데 이번 경험을 통해서 다음부터는 더 계획적이고 체계적이게 성실하고 똑똑하게 행동할 것이라는 다짐을 하게 되었습니다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이 과정에서 나는 친구에게 고마움과 대단함을 느꼈다. 그리고 한층 더 코딩과 친해진 것 같아 좋다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이걸로도 게임을 만들수 있는걸 알았어요 그리고 버스를 타지만 그래도 어느정도는 이렇게 해야하는구나 를 알았습니다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트 과정에서 내가 배우고 느낀 점은 파이썬으로 코딩을 할 때 쓰는 코드들이 복잡한 형태를 띄우곤 있지만 막상 의미를 알면 그 기능이 굉장히 단순한 것이나 그걸 위해서 저런 코드을 쓰는 구나 하는 점이 있었다. 또한 수학적인 지식이 있다면 코딩으로 나타내고자 하는것이 다양해지기에 코딩을 위해서는 수학적 사고력을 길러야한다는 점을 배운 게기였던것 같다. 느낀 점으로는 프로젝트 아이디어를 생각하며 각자의 의견을 모아 기본을 잡고 같이 의논하며 코딩하고 기록을 작성하는 그 순간속에서 위기들은 존○○였으나 같이 하였기에 막막한 순간들이 와서 절망하더라도 협력을 통해 해결된 부분들이 많아 협력이라는 것이 마냥 이 과제에서만 국한되지 않고 우리가 살아가는데 꼭 필요한 것이지 않을까 하는 나의 예전 생각들을 인정받는 듯한 느낌을 받았다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트를 머릿속으로 생각하는 것은 쉽지만 그 아이디어를 코드를 통해 실질적으로 구현하는 것은 생각보다 어렵다는 사실을 깨달았다. 만드는 과정에서는 많은 시행착오가 있었지만, 팀원과 함께 협력하고 스스로 다양한 방법을 시도해보며 마침내 만들고자 하는 게임을 생성했을 때는 굉장히 뿌듯하고 보람 있었다. 또 느낀점을 하나하나 기록해가며 과거의 내가 어떤 아이디어를 가지고 코드를 만들었는지를 알 수 있어서 유용하고 좋았다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>팀원들과 함께 상의하고 노력하면서 코드 하나하나를 만들어 나가는 과정이 재미있었다. 비록 중간에 막히거나 어려운 부분이 있었지만 다른 사고방식을 통해 해결하는 과정에서 뿌뜻함을 느꼈다.그리고 하루하루 발전시킨 코드를 기록하고 다시 보니까 여태까지 한 노력에 보상을 받는 느낌이었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI의 영향력에서 벗어나 계속해서 질문하고 이야기하며 이게 정말 진짜인가? 하는 능력을 키운것 같다. 아무리 AI가 프로그램을 짰다지만 세세한 부분에서 아쉬운 점이 있기 마련이고, 이 부분을 지적함으로써 스스로 발전하는 계기가 되었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 똑똑하긴 하지만 생각보다 잘 안되는 부분도 있어서 사용자에 따라 역량이 달라질 것 같다는 생각이 들었다. 특히 chatgpt 같은 채팅형 AI같은 경우엔 더 그럴 것이라고 생각한다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 만능이 아니며, 질문을 대충 하거나 세부 정보를 주지 않으면 잘못된 답을 준다는 것을 느꼈습니다. 결국 사람이 데이터의 진짜 내용을 정확히 알고 통제해야만 올바른 프로그램을 만들 수 있다는 교훈을 얻었습니다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>처음에는 어떻게 할지 너무 막막했지만 계속 하다보니 점점 늘었고 팀원과의 협력도 잘 맞아서 더 빨리 끝낼 수 있었던 것 같다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>이번 프로젝트에서 AI를 활용하면서 많은 도움을 받았다. 코딩에 대해 잘 모르는 부분이 있어도 AI에게 질문하면 설명을 해 주고 코드를 만들어 주어서 프로그램을 완성하는 데 큰 도움이 되었다. 오류가 생각보다 많이 생겼는데에도 그 오류가 뭔지 더 잘 알려주었고 그 오류를 해결하기 위한 방법또한 자세하게 알려주어서 생각보다 수월했다. 하지만 AI가 알려 주는 내용이 항상 완벽한 것은 아니라는 점도 알게 되었다. 이를 통해 AI의 답변을 무조건 그대로 사용하는 것이 아니라 내용을 이해하고 확인하는 것이 중요하다는 것을 배웠다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>문제해결 과정에서 다른 친구들과의 협력 방법을 배웠다.기록 과정에서는 친구가 창의적이고 독특하게 작성해주었기 때문에 좋았다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai가 생각보다 PDF 파일 변환에 유용하지 않단 걸 느꼈다. 그래서 다음부터는 PDF 말고 다른 형식의 파일로 변환해서 올려야겠다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>안될것 같은것도 해보면 된다 시도하는법을 더 배운것같다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai가 생각했던것보다 훨씬 고능하다는걸 알았고, 이런걸 인간이 만들었다는걸 생각하니 진짜 개발자분들이 존경스러웠다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>초반엔 음악과 수학을 어떻게 연관시켜야할지 어려움이 많았는데 정반대처럼 보이는 수학과 음악에도 꽤 연관성이 많다는 것을 알게되었다. 이를 통해서 앞으로 다양한 관점으로 나의 진로를 바라보게 되었다. 또한 여러 오류가 떴는데 이때마다 무엇으로 인해서 발생하는 건지, 어떻게 해야 원하는 크기,위치,색깔대로 포물선이 움직일 수 있는지에 대해 탐구하며 스스로 생각하고 무언가를 완성하는 힘을 기를 수 있게 되었다. 가끔씩 기록했던 코드를 날렸을 때도 있었지만 그때마다 팀원과 기억을 더듬거나 새로 시작한다는 마음으로 코드를 다시 구성할 수 있었다. 혼자서 했다면 완성하지 못 했을 프로젝트를 협력을 통해서 완성해서 무척 뿌듯했다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트를하며 코드를 짤때 생각하는 시간이 많아졌고, 친구와 프로젝트를 완성시키며 협력성을 기르게되어 좋았다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>물체를 합칠 때 축을 맞춰야 원하는 모양이 나올 수 있다는 점을 알게 되었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI에게 질문만 잘하면 내가 원하는 답을 얻을수 있었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>데이터를 단순히 보는 것이 아니라 분석하여 의미 있는 결과를 도출하는 방법을 배웠습니다. 또한 데이터를 활용해 문제를 해결하는 데이터 과학의 과정을 경험할 수 있었습니다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트 아이디어는 빠르게 선정 되었습니다 문제해결 과정은 책과 인터넷을 참고를해 해결했다 기록 과정은 초반은 무엇을 해야할지 몰라서 요약해서 적었는데 후반에 코드를 설명하는 기록을 해서 팀원한테 욕을 듣지 않을수 있었다 협력은 친구와 같이 코드를 찾아보고 보고서를 같이 작성하였다 팀원이 캐리하였다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>ai가 다 해준다고 코드만 붙혀넣으면 결과물이 어떻게 망가지는지에 대해 깊이 성찰 했다. 역시 인간이 일하는게 속 편하다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>멀티 페이지 만드는데 좀 이해가 안 갔고 오류가 나올 때마다 망했다 ㅜㅜ 싶었지만 ai와 선생님 덕분에 결과가 잘 ○○ 것 같아서 만족스럽고 뿌듯합니다!</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai의 성능과 별개로 ai의 사용자의 능력이 결과물에 가장 영향을 크게 미치는 것 같다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>처음에 친구들과 같이 고민하여 엘리베이터라는 주제를 선택하였고 문제가 생겼을 때는 ○○이가 책에서 필요한 코드를 찾아주었다. 그리고 코드를 작성하면서 어려운 것이 있거나 발전시킨 내용이 있으면 ○○이가 이 과정을 기록해줬다. 이 프로젝트를 통해서 친구들과 협력하는 방법을 배웠다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 많이 발전하여 공신력있고 정확한 정보로 코딩도 할수있다는것에대한 신기함을 느꼈다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>Ai가 생각보다 똑똑한고 갸?지 않다 오류가 너무 많이 떻다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>생각보다 더 자세하고 정확하게 원하는 것을 설명해야 한다는 것을 알게 되었다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>비록 AI가 만들었다고는 하지만 직접 명령어를 넣고 원하는 결과를 만들었다는 것에서 보람을 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>팀원과 함께 아이디어를 생각하고 문제를 해결할때 같이 해서 협력심을 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>내가 가지고 있는 지식으로도 내가 원하는 게임을 약간 비슷하게 나마 만들 수 있었음</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>일지 작성이 뒷부분이 조금 부실해서 계속해서 script를 바탕으로 계속해서 채워나가려고 노력하고 있고 누구보다 빠르고 깔끔하게 수행을 마무리한것 같아 기쁘다. 그리고 협력과정에서 ○○이와 다투는것 없이 ○○이가 한 내용을 바탕으로 바로바로 일지를 작성한것이 지체없는 수행을 가능하게 한것같다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트 아이디어를 짜는데 첨에 어떤 주제를 할 까 고민하였고 팀원과 계속 코드를 작성하고 ○○하는데 노력을 하였고 기록과정을 매 시간마다 ○○하고 작성하는데 힘을 쓰다보니 시간을 많이쓰며 하루하루 뿌듯함을 쌓아갔다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>애들이 좀 써놓은 코드에서 자꾸 오류가 날때 내가 고쳤는데 잘못된 부분을 발견하고 고칠 때 뭔가 쾌감이 있었고 재미있었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>AI를 비판적으로 활용하려고 노력하는 태도를 배우게 된 것 같고, 한 번 질문해서 그치는 것이 아니라 계속 질문하면서 내가 얻고자 하는 내용을 얻기 위해 노력해야 한다는 것을 배우게 되었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI에게 대충 말하니까 완전 다른 방식으로 데이터 로드 방식을 구현해서, 아예 프로젝트에 차질이 있었다. 그래서, 다시 처음 부터 완전히 자세히 AI에게 하나부터 열까지 알려줌으로써, AI를 활용할때에는 정확히 원하는것을 말해야한다는것을 느끼게 되었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>이번 프로젝트를 진행하면서 조건문과 좌표를 활용해 캐릭터의 움직임과 충돌을 판정하는 방법을 배웠다. 특히 if문과 and 연산자를 사용해 여러 조건을 동시에 확인하는 방법을 익힐 수 있었다. 또한 게임 오버 기능을 구현하는 과정에서 오류가 발생해 어려움을 겪었는데, 이를 통해 코딩은 단순히 코드를 작성하는 것이 아니라 오류를 찾고 ○○하는 과정이 매우 중요하다는 것을 알게 되었다. 처음에는 생각보다 복잡하고 어려워 포기하고 싶은 순간도 있었지만, 게임이 조금씩 완성되는 모습을 보며 성취감을 느낄 수 있었다. 이번 프로젝트를 통해 문제 해결 능력과 끈기의 중요성을 배울 수 있었고, 앞으로 더 다양한 기능을 구현해 보고 싶다는 생각이 들었다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>깃허브, 스트림릿을 이용하면서 AI가 코드를 전부 만들어주는 것이 신기했다. 또, README를 작성하여 탐구 동기, 역할, 실제 데이터 출처를 한 눈에 알아보기 쉽게 하는 프로젝트 또한 완성도 있게 마칠 수 있어서 뿌듯했다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>ai를 잘 활용하면 훨씬 더 대단한 것도 쉽게 만들 수 있다는 생각을 하였다 앞으로 ai를 활용하는 법을 더 찾아보고 공부해야겠다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>팀원과 계속 상의하며 문제를 해결하는 과정이 힘들면서도 결국 해내었을 때 정말 뿌듯했고 이 활동을 통해 점점 성장하는 자신을 발견할 수 있었다. 처음엔 자잘한 아이디어에서 계속 추가되어 지금의 프로젝트를 만들게 되었고 도움과 책을 통해 더 ○○ 완성본을 얻게 되었다. 그날의 분량이 끝날 때마다 기록을 통해 우리에게 부족한 점과 해결해야 할 부분, 어떤 걸 배우게 됐는지 등 한 번 더 자세히 생각할 수 있는 시간을 갖게 되어 좋았고 다음 시간에 해야 할 부분을 바로 해결할 수 있게 되었다. 장애물의 모양과 위치 등 하나하나 해결해야 할 부분들이 많아 힘들었지만 머리를 맞대어 결국 완성을 해낸 것이 매우 매우 뿌듯했다. 한 층 더 성장한 것을 느끼게 된 계기가 되었다!</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>앞으로 더 부지런하게 해야겠다는 느낌이 들었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>오브젝트를 두개를 만들어야 하는데 어떻게 해야할지 모르겠어서 선생님께 질문하여 해결하였다</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>아이디어를 많이 생각하다가 일상생활에서 사용할 수도 있고 재밌는 게임을 만들고 싶어서 호빵을 고르는 게임을 만들었다. 중간에 어려운 점이 많았는데 책도 찾아보고 선생님께 물어보면서 해결이 되는 과정이 신기하고 뿌듯했다. 또 코딩만 하다가 기록할 시간이 없었던 날이 많았어서 시간 관리의 중요성을 깨달았다. 내가 미적 감각이 없어서 호빵의 디자인을 구성하고 색깔을 rgb로 정하는 것을 ○○가 하고 그것을 내가 코드로 작성하는 과정에서 협력이 굉장히 중요하다고 느꼈다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>아이디어는 쉽게 생각했지만 코딩을 쓰며 서로 협력하는 게 좋았던거 같음니다</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI가 방대한 양의 데이터를 활용하여 코드를 짜주는 것이 불과 몇 초밖에 안 걸렸다는 것이 신기하고 한편으로는 소름도 돋았다. 다만, 오류가 번번치 않게 있긴 했지만 그래도 코드를 이렇게 빨리 짜준 것에 대해 매우 놀라웠다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>프로젝트의 처음 주제는 단순히 캐릭터를 만들어서 캐릭터와 대화 하는 것 이였는데 후에 나의 진로와 관련 지어서 농사를 체험할 수 있는 게임을 만들게 되었다.처음에는 어려운 코드를 사용하여 쉬운 코드로 바꿀 때 조금 어려웠지만 선생님이 올리신 참고 자료를 보며 나의 방식대로 코드를 만들었다. 내가 코드를 만들 때 마다 나의 팀원이 그 과정을 적어줬다. 같이 코드를 고민하여 코드를 만들었다.</blockquote>
+    </figure>
+    <figure class="quote non" data-g="non">
+      <figcaption><span class="pill">Non AI</span><span class="badge">만들며 배운 것</span></figcaption>
+      <blockquote>막연하게 생각했던 아이디어를 파이썬 코드로 직접 구현해 보면서 시뮬레이션을 만들기 위해 고려해야 할 조건과 점이 생각보다 많다는 것을 배웠습니다. 또한 코드 작성 후에도 팀원들과 함께 오류를 점검하고 기록을 검토하는 과정을 통해, 완성도 있는 프로그램을 만들기 위해서는 끈기 있는 협력과 철저한 피드백이 중요하다는 점을 깨달았습니다.</blockquote>
+    </figure>
+    <figure class="quote on" data-g="on">
+      <figcaption><span class="pill">On AI</span><span class="badge">AI를 쓰며 느낀 것</span></figcaption>
+      <blockquote>AI를 활용하니 주제 선정, 코드 작성, 오류 해결 과정을 더 빠르게 진행할 수 있었습니다. 하지만 원하는 결과를 얻기 위해서는 질문을 구체적으로 해야 하고, AI의 답변을 그대로 쓰기보다 직접 확인하고 ○○하는 과정이 중요하다고 느꼈습니다.</blockquote>
+    </figure>
+</main>
+
+<footer>
+  <p>학생 개인정보 보호를 위해 이름은 ○○ 으로 바꾸었고, 소감 원문은 다듬지 않고 그대로 실었습니다.</p>
+  <p><a href="onai-nonai-keynote.html">← 키노트로 돌아가기</a></p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var btns = document.querySelectorAll('nav button');
+  var cards = document.querySelectorAll('.quote');
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      btns.forEach(function(x){ x.setAttribute('aria-pressed', String(x===b)); });
+      var f = b.getAttribute('data-f');
+      cards.forEach(function(c){
+        c.hidden = (f !== 'all' && c.getAttribute('data-g') !== f);
+      });
+      window.scrollTo({top:0});
+    });
+  });
+})();
+</script>
+</body>
+</html>
