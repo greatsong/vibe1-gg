@@ -427,6 +427,67 @@
   }
 
 
+  /* ---- 비트·아톰 교류 장면(sweep) — intro-keynote에서 가져옴 ---- */
+  .sweep{
+    width:min(760px, 84vw);
+    height:clamp(120px,24vh,220px);
+    position:relative;
+    margin-bottom:clamp(24px,4vh,48px);
+  }
+  /* 아톰 — 처음부터 크고, 장면 내내 크기 고정. '원래 아톰의 세상이 더 컸다'.
+     .sweep 은 flex 아이템이라 낮은 화면에서 눌린다. vh 대신 sweep 높이(%)에 맞춰
+     크기를 잡아야 눌린 높이를 뚫고 나가지 않는다. */
+  .sweep .atom-s{
+    position:absolute; top:50%; right:6%; transform:translateY(-50%);
+    height:min(78%, 168px); width:auto; aspect-ratio:1; border-radius:50%;
+    background:radial-gradient(circle at 38% 32%, var(--amber-soft), var(--amber) 55%, #B87510 100%);
+    box-shadow:0 0 44px rgba(243,176,58,.35), 0 0 110px rgba(243,176,58,.16);
+    z-index:2;
+  }
+  /* 비트 — 격자는 항상 5×5 자리를 차지하고, 처음엔 가운데 3×3만 켜져 있다.
+     바깥 링이 켜지면서 3×3 → 5×5 로 넓어진다. 커지는 건 이쪽뿐. */
+  .sweep .bits-s{
+    position:absolute; top:50%; left:5%; transform:translateY(-50%);
+    display:grid;
+    grid-template-columns:repeat(5,1fr); grid-template-rows:repeat(5,1fr);
+    gap:7%;
+    height:min(66%, 136px); width:auto; aspect-ratio:1;
+    z-index:2;
+  }
+  .sweep .bits-s i{
+    display:block; width:100%; height:100%;
+    border-radius:3px; background:var(--cyan);
+    box-shadow:0 0 10px rgba(90,214,230,.45);
+    opacity:.9;
+  }
+  .sweep .bits-s i.ring{ opacity:0; transform:scale(.3); }
+  .slide.active .sweep .bits-s i.ring{ animation:ringIn .8s var(--ease) both; }
+  @keyframes ringIn{ from{ opacity:0; transform:scale(.3); } to{ opacity:.9; transform:none; } }
+  .sweep .field{ position:absolute; inset:0; }
+  /* 비트 입자 — 작은 시안 사각형, 아톰 쪽으로 이동 */
+  .sweep .p{
+    position:absolute; width:clamp(9px,1.5vh,15px); height:clamp(9px,1.5vh,15px);
+    border-radius:2px; background:var(--cyan); box-shadow:0 0 8px rgba(90,214,230,.6);
+    opacity:0;
+    --x0:-40px; --op:.92;
+  }
+  /* 아톰 입자 — 작은 앰버 원, 비트 쪽으로 되돌아간다.
+     크기·개수를 유지해 시안 쪽이 확장하는 쪽으로 읽히게 한다 */
+  .sweep .p.atom-p{
+    width:clamp(7px,1.2vh,12px); height:clamp(7px,1.2vh,12px);
+    border-radius:50%;
+    background:radial-gradient(circle at 38% 32%, var(--amber-soft), var(--amber) 70%);
+    box-shadow:0 0 8px rgba(243,176,58,.55);
+    --x0:40px; --op:.72;
+  }
+  .slide.active .sweep .p{ animation:drift 3.4s var(--ease) infinite; } /* 입자별 duration/delay는 인라인 */
+  @keyframes drift{
+    0%{ opacity:0; transform:translateX(var(--x0,-40px)) scale(.6); }
+    18%{ opacity:var(--op,.92); }
+    75%{ opacity:calc(var(--op,.92) * .88); }
+    100%{ opacity:0; transform:translateX(var(--dx,320px)) scale(1); }
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{ animation:none !important; }
     .slide{ transition:opacity .3s ease, visibility .3s; transform:none !important; }
@@ -434,6 +495,9 @@
     .bridge .link{ stroke-dashoffset:0 !important; stroke-dasharray:none !important; }
     .bridge .ai-tag{ opacity:1 !important; }
     [data-step]{ transition:opacity .3s ease; transform:none !important; }
+    /* sweep: 교류 장면을 중간 지점에 정지된 상태로 표시 */
+    .sweep .p{ opacity:.5 !important; transform:translateX(var(--half,0px)) !important; }
+    .sweep .bits-s i.ring{ opacity:.9 !important; transform:none !important; }
   }
 </style>
 </head>
@@ -456,7 +520,7 @@
       2026년의 AI융합교육,<br>
       <span class="green">On AI</span>와 <span class="red">Non AI</span> <span class="yellow">사이</span>에서
     </h1>
-    <p class="sub rise d3"><span class="amber">아톰</span>과 <span class="cyan">비트</span>, 두 세상 사이에 신호등을 세웠습니다.</p>
+    <p class="sub rise d3">당곡고등학교 교사 송석리</p>
   </section>
 
   <!-- 2. 아톰의 세상 -->
@@ -477,8 +541,27 @@
     <p class="sub rise d3">정보와 화면, 그리고 네트워크.<br>모든 것이 <span class="cyan">0</span>과 <span class="cyan">1</span>로 흐른다.</p>
   </section>
 
-  <!-- 4. 둘을 잇는 다리, AI -->
-  <section class="slide" data-i="3" aria-label="둘을 잇는 AI">
+  <!-- 4. 질문: 10년 후 -->
+  <section class="slide" data-i="3" aria-label="질문">
+    <div class="kicker rise">Question</div>
+    <h2 class="lead big rise d1"><b>10년 후</b>를<br>예측한다면?</h2>
+  </section>
+
+  <!-- 5. 비트가 넓어진다 -->
+  <section class="slide" data-i="4" aria-label="비트의 확장">
+    <div class="sweep rise" id="sweep" aria-hidden="true">
+      <div class="field" id="sweepField"></div>
+      <div class="bits-s" id="sweepBits"></div>
+      <div class="atom-s"></div>
+    </div>
+    <h2 class="lead rise d2">
+      <span class="cyan">비트</span>의 세상은 더 넓어지고,<br>
+      <b class="amber">아톰</b>의 세상과<br>서로 더 큰 영향을 주고받을 것
+    </h2>
+  </section>
+
+  <!-- 6. 둘을 잇는 다리, AI -->
+  <section class="slide" data-i="5" aria-label="둘을 잇는 AI">
     <div class="bridge rise" aria-hidden="true">
       <div class="ai-tag">AI</div>
       <div class="node-atom"></div>
@@ -498,8 +581,8 @@
     <h2 class="hero med rise d3">아톰과 비트를 잇는, AI</h2>
   </section>
 
-  <!-- 5. 전환: 교실의 질문 -->
-  <section class="slide" data-i="4" aria-label="교실의 질문">
+  <!-- 7. 전환: 교실의 질문 -->
+  <section class="slide" data-i="6" aria-label="교실의 질문">
     <div class="kicker rise">그런데, 교실에서는</div>
     <h2 class="lead big rise d1">
       이 다리에 언제 <b class="green">초록불</b>을,<br>
@@ -508,8 +591,8 @@
     <p class="sub rise d3">바이브 코딩 열풍 속에서,<br>정보 수업이 마주한 질문입니다.</p>
   </section>
 
-  <!-- 6. 올해의 실험 -->
-  <section class="slide" data-i="5" aria-label="올해의 실험">
+  <!-- 8. 올해의 실험 -->
+  <section class="slide" data-i="7" aria-label="올해의 실험">
     <div class="signal rise" aria-hidden="true" style="margin-bottom:41.4px">
       <i class="l-g"></i><i class="l-y"></i><i class="l-r"></i>
     </div>
@@ -521,8 +604,8 @@
     <p class="sub rise d3">무엇이 학생들의 성장과 문제해결능력 향상에<br>도움이 되는지 함께 나눕니다.</p>
   </section>
 
-  <!-- 7. On AI = 초록불 -->
-  <section class="slide" data-i="6" aria-label="On AI, 초록불">
+  <!-- 9. On AI = 초록불 -->
+  <section class="slide" data-i="8" aria-label="On AI, 초록불">
     <div class="kicker rise">On AI · <span class="green">초록불</span></div>
     <h2 class="lead rise d1">
       알고리즘보다 <b class="green">빠르고 쉽게</b> 결과물을 만들며,<br>
@@ -536,8 +619,8 @@
     <p class="sub rise d3">만드는 속도가 빨라질수록,<br>문제 자체를 생각할 시간이 늘어납니다.</p>
   </section>
 
-  <!-- 8. Non AI = 빨간불 -->
-  <section class="slide" data-i="7" aria-label="Non AI, 빨간불">
+  <!-- 10. Non AI = 빨간불 -->
+  <section class="slide" data-i="9" aria-label="Non AI, 빨간불">
     <div class="kicker rise">Non AI · <span class="red">빨간불</span></div>
     <h2 class="lead rise d1">
       <b>알고리즘</b>과 <b>사고력</b>을 키우는 수업에서는<br>
@@ -546,8 +629,8 @@
     <p class="sub rise d3">스스로 코드를 짜고 고쳐 보며,<br>생각하는 힘을 기릅니다.</p>
   </section>
 
-  <!-- 9. 활용한 도구 및 에듀테크 -->
-  <section class="slide" data-i="8" aria-label="활용한 도구 및 에듀테크">
+  <!-- 11. 활용한 도구 및 에듀테크 -->
+  <section class="slide" data-i="10" aria-label="활용한 도구 및 에듀테크">
     <div class="kicker rise">활용한 도구 · 에듀테크</div>
     <div class="label rise d1">수업에 필요한 도구는 AI와 함께 직접 만들었습니다</div>
     <div class="cards rise d2">
@@ -578,8 +661,8 @@
     </div>
   </section>
 
-  <!-- 10. 수업의 흐름 -->
-  <section class="slide" data-i="9" aria-label="수업의 흐름">
+  <!-- 12. 수업의 흐름 -->
+  <section class="slide" data-i="11" aria-label="수업의 흐름">
     <div class="kicker rise">수업의 흐름</div>
     <div class="tracks rise d1">
       <div class="track t-on">
@@ -604,8 +687,8 @@
     <p class="sub" data-step="8">두 수업의 차이는 단 하나, <b>코드를 만드는 방법</b>입니다.</p>
   </section>
 
-  <!-- 11. 주요 장면 → 키노트 뒤 실제 시연으로 진행 -->
-  <section class="slide" data-i="10" aria-label="주요 장면">
+  <!-- 13. 주요 장면 → 키노트 뒤 실제 시연으로 진행 -->
+  <section class="slide" data-i="12" aria-label="주요 장면">
     <div class="kicker rise">주요 장면</div>
     <h2 class="lead rise d1">
       화면 캡처 대신,<br>
@@ -614,8 +697,8 @@
     <p class="sub rise d3">당곡 AI 채팅 · pythink2 · vpylab · 프롬프팅 챌린지 · 이미테이션 게임</p>
   </section>
 
-  <!-- 12. 학생 반응 -->
-  <section class="slide" data-i="11" aria-label="학생 반응">
+  <!-- 14. 학생 반응 -->
+  <section class="slide" data-i="13" aria-label="학생 반응">
     <div class="kicker rise">학생 반응 · 좋았던 것들</div>
     <div class="points rise d1">
       <div class="point">
@@ -634,8 +717,8 @@
     </div>
   </section>
 
-  <!-- 13. 교사의 인사이트: 둘 다 필요하다 -->
-  <section class="slide" data-i="12" aria-label="교사의 인사이트">
+  <!-- 15. 교사의 인사이트: 둘 다 필요하다 -->
+  <section class="slide" data-i="14" aria-label="교사의 인사이트">
     <div class="kicker rise">교사의 인사이트</div>
     <h2 class="lead rise d1">
       궁극적으로는 <b>둘 다</b> 필요합니다.<br>
@@ -645,8 +728,8 @@
     문제해결력을 키우려면 AI를 잘 쓰는 법도 배워야 합니다.</p>
   </section>
 
-  <!-- 14. 지향점: 두 세상을 스스로 잇는 힘 -->
-  <section class="slide" data-i="13" aria-label="지향점">
+  <!-- 16. 지향점: 두 세상을 스스로 잇는 힘 -->
+  <section class="slide" data-i="15" aria-label="지향점">
     <div class="kicker rise">지향점 · <span class="yellow">그 사이</span></div>
     <div class="label rise d1">두 불빛 사이에서 우리가 향하는 곳은,</div>
     <h2 class="hero med rise d2"><span class="yellow">융합적</span><br>문제해결교육</h2>
@@ -656,16 +739,16 @@
     <span class="amber">아톰</span>과 <span class="cyan">비트</span>, 두 세상을 스스로 잇는 힘을 기릅니다.</p>
   </section>
 
-  <!-- 15. 결론: 신호등을 쥔 사람 -->
-  <section class="slide" data-i="14" aria-label="선생님이 먼저">
+  <!-- 17. 결론: 신호등을 쥔 사람 -->
+  <section class="slide" data-i="16" aria-label="선생님이 먼저">
     <div class="label rise">다리 위 신호등을 쥔 사람은 선생님이기에,</div>
     <h2 class="hero med rise d1">선생님이 <span class="green">먼저</span><br>경험해야 합니다</h2>
     <p class="sub rise d3">AI로 문제를 해결해 보는 경험이 중요합니다.<br>
     가장 좋은 방법은 AI로 <b>교수학습자료를 직접 만들어 보는 것</b>입니다.</p>
   </section>
 
-  <!-- 16. 마무리 -->
-  <section class="slide" data-i="15" aria-label="마무리">
+  <!-- 18. 마무리 -->
+  <section class="slide" data-i="17" aria-label="마무리">
     <div class="emblem rise" aria-hidden="true">
       <div class="e-atom"></div>
       <div class="signal sm"><i class="l-g"></i><i class="l-y"></i><i class="l-r"></i></div>
@@ -714,6 +797,51 @@
       d.style.animationDelay = (g*30) + 'ms';
       grid.appendChild(d);
     }
+  }
+
+  // 교류 장면의 비트 클러스터 — 5×5 격자, 가운데 3×3만 켜진 채 시작.
+  // 바깥 링이 가장자리부터 차례로 켜지며 비트의 세상이 넓어진다.
+  var bitsS = document.getElementById('sweepBits');
+  if(bitsS){
+    for(var r=0; r<5; r++){
+      for(var c=0; c<5; c++){
+        var cell = document.createElement('i');
+        if(r===0 || r===4 || c===0 || c===4){
+          cell.className = 'ring';
+          // 모서리는 더 멀리 있으므로 마지막에 켜진다
+          var dist = Math.sqrt((r-2)*(r-2) + (c-2)*(c-2));
+          cell.style.animationDelay = (1 + (dist-2)*1.15).toFixed(2) + 's';
+        }
+        bitsS.appendChild(cell);
+      }
+    }
+  }
+
+  // 교류 장면의 입자 필드 — 비트와 아톰이 서로를 향해 오간다
+  var field = document.getElementById('sweepField');
+  if(field){
+    var spawn = function(isAtom){
+      var p = document.createElement('span');
+      p.className = isAtom ? 'p atom-p' : 'p';
+      var dist = 450 + Math.round(Math.random()*140);
+      var dx = isAtom ? -dist : dist;
+      // 아톰 입자는 앰버 원 근처에서, 비트 입자는 비트 클러스터 근처에서 출발
+      var left = isAtom ? (76 + Math.random()*20) : (Math.random()*20);
+      // 비트는 필드 전체로 퍼지고, 아톰은 좁은 중앙 차선을 유지해
+      // 시안 쪽이 더 많은 영역을 차지하는 것으로 읽히게 한다
+      p.style.top = (isAtom
+        ? Math.round(30 + Math.random()*40)
+        : Math.round(5 + Math.random()*83)) + '%';
+      p.style.left = Math.round(left) + '%';
+      p.style.setProperty('--dx', dx + 'px');
+      p.style.setProperty('--half', Math.round(dx/2) + 'px'); // reduced-motion 정지 지점
+      p.style.animationDelay = (Math.random()*3.4).toFixed(2) + 's';
+      p.style.animationDuration = (isAtom ? 3.7 + Math.random()*.9 : 3.1 + Math.random()*.8).toFixed(2) + 's';
+      field.appendChild(p);
+    };
+    // 시안이 앰버보다 많다: 넓어지는 쪽은 비트의 세상
+    for(var s=0; s<17; s++){ spawn(false); }
+    for(var a=0; a<8; a++){ spawn(true); }
   }
 
   // ---- 슬라이드 내부 빌드(순차 공개) ----
