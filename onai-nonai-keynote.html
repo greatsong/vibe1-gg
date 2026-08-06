@@ -313,6 +313,34 @@
   }
   .card.c-green .name{ color:var(--green); }
   .card.c-yellow .name{ color:var(--yellow); }
+  .card .name a{
+    color:inherit; text-decoration:none;
+    border-bottom:1px dashed currentColor;
+  }
+  .card .name a:hover{ border-bottom-style:solid; }
+  .card .name .ext{ font-size:.7em; opacity:.7; margin-left:.3em; }
+
+  /* ---- 주요 장면 캡처 ---- */
+  .shots{
+    display:grid; grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+    width:1300px;
+    margin-bottom:8px;
+  }
+  .shot{ display:block; text-decoration:none; }
+  .shot img{
+    width:100%; display:block;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 12px 40px rgba(0,0,0,.45);
+  }
+  .shot .cap{
+    margin-top:12px;
+    font-size:18px; font-weight:600; letter-spacing:-.01em;
+    color:var(--ink-dim); text-align:center;
+  }
+  .shot .cap .ext{ font-size:.75em; opacity:.7; margin-left:.3em; }
+  .shot:hover .cap{ color:var(--ink); }
 
   /* ---- 수업 흐름 트랙 ---- */
   .tracks{
@@ -635,7 +663,7 @@
     <div class="label rise d1">수업에 필요한 도구는 AI와 함께 직접 만들었습니다</div>
     <div class="cards rise d2">
       <div class="card c-green">
-        <div class="name">당곡 AI 채팅</div>
+        <div class="name"><a href="https://danggok-ai.vercel.app" target="_blank" rel="noopener">당곡 AI 채팅<span class="ext" aria-hidden="true">↗</span></a></div>
         <div class="desc">모든 학생에게 유료 AI 접근을 열어 주기 위해 개발한 서비스</div>
       </div>
       <div class="card">
@@ -643,11 +671,11 @@
         <div class="desc">팀 프로젝트의 과정을 기록하고 협업하는 공간</div>
       </div>
       <div class="card c-green">
-        <div class="name">pythink2</div>
+        <div class="name"><a href="https://pythink2.vercel.app" target="_blank" rel="noopener">pythink2<span class="ext" aria-hidden="true">↗</span></a></div>
         <div class="desc">컴퓨팅 사고력을 키우기 위해 개발한 서비스</div>
       </div>
       <div class="card c-green">
-        <div class="name">vpylab</div>
+        <div class="name"><a href="https://vpylab.vercel.app" target="_blank" rel="noopener">vpylab<span class="ext" aria-hidden="true">↗</span></a></div>
         <div class="desc">융합적 문제해결력을 키우기 위해 개발한 서비스</div>
       </div>
       <div class="card c-yellow">
@@ -690,11 +718,21 @@
   <!-- 13. 주요 장면 → 키노트 뒤 실제 시연으로 진행 -->
   <section class="slide" data-i="12" aria-label="주요 장면">
     <div class="kicker rise">주요 장면</div>
-    <h2 class="lead rise d1">
-      화면 캡처 대신,<br>
-      잠시 후 <b class="green">실제 서비스 시연</b>으로 보여드립니다.
-    </h2>
-    <p class="sub rise d3">당곡 AI 채팅 · pythink2 · vpylab · 프롬프팅 챌린지 · 이미테이션 게임</p>
+    <div class="shots rise d1">
+      <a class="shot" href="https://danggok-ai.vercel.app" target="_blank" rel="noopener">
+        <img src="assets/captures/danggok-ai.png" alt="당곡 AI 채팅 메인 화면">
+        <div class="cap">당곡 AI 채팅<span class="ext" aria-hidden="true">↗</span></div>
+      </a>
+      <a class="shot" href="https://pythink2.vercel.app" target="_blank" rel="noopener">
+        <img src="assets/captures/pythink2.png" alt="pythink2 메인 화면">
+        <div class="cap">pythink2<span class="ext" aria-hidden="true">↗</span></div>
+      </a>
+      <a class="shot" href="https://vpylab.vercel.app" target="_blank" rel="noopener">
+        <img src="assets/captures/vpylab.png" alt="vpylab 메인 화면">
+        <div class="cap">vpylab<span class="ext" aria-hidden="true">↗</span></div>
+      </a>
+    </div>
+    <p class="sub rise d3">프롬프팅 챌린지 · 이미테이션 게임은 잠시 후 <b class="green">실제 시연</b>으로 보여드립니다.</p>
   </section>
 
   <!-- 14. 학생 반응 -->
