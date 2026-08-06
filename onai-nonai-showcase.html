@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>학생 프로젝트 쇼케이스 — On AI와 Non AI 사이에서</title>
+<style>
+  :root{
+    --bg:#0A0A0B; --ink:#F4F4F2; --ink-dim:#9A9A98; --ink-faint:#5A5A5C;
+    --amber:#F3B03A; --cyan:#5AD6E6;
+    --green:#5BE38B; --red:#FF7A6B; --yellow:#F3C34A;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --font:-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+           "Malgun Gothic", "맑은 고딕", "Noto Sans KR", system-ui, sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,.035), transparent 60%),
+      radial-gradient(80% 50% at 12% 100%, rgba(91,227,139,.05), transparent 55%),
+      radial-gradient(80% 50% at 88% 100%, rgba(255,122,107,.05), transparent 55%),
+      var(--bg);
+    color:var(--ink); font-family:var(--font);
+    -webkit-font-smoothing:antialiased; letter-spacing:-.01em;
+    word-break:keep-all; overflow-wrap:break-word;
+  }
+  a{ color:inherit; }
+
+  header{ max-width:1100px; margin:0 auto; padding:76px 32px 30px; text-align:center; }
+  .kicker{
+    font-size:13px; font-weight:500; letter-spacing:.42em; padding-left:.42em;
+    text-transform:uppercase; color:var(--ink-faint); margin-bottom:22px;
+  }
+  h1{ font-size:clamp(34px,5vw,56px); font-weight:800; letter-spacing:-.03em; line-height:1.12; }
+  h1 .green{ color:var(--green); } h1 .red{ color:var(--red); }
+  header .sub{ margin-top:16px; color:var(--ink-dim); font-size:clamp(15px,1.6vw,18px); line-height:1.6; }
+
+  .section-head{
+    max-width:1100px; margin:44px auto 6px; padding:0 32px;
+    display:flex; align-items:baseline; gap:14px;
+  }
+  .section-head h2{ font-size:clamp(24px,3vw,34px); font-weight:800; letter-spacing:-.025em; }
+  .section-head .tag{
+    font-size:12.5px; font-weight:800; letter-spacing:.08em;
+    padding:4px 12px; border-radius:999px; transform:translateY(-3px);
+  }
+  .sec-on .tag{ color:var(--green); background:rgba(91,227,139,.12); }
+  .sec-non .tag{ color:var(--red); background:rgba(255,122,107,.12); }
+  .section-head .note{ color:var(--ink-faint); font-size:14px; }
+
+  .team{
+    max-width:1100px; margin:22px auto; padding:0 32px;
+  }
+  .team-card{
+    border-radius:18px; overflow:hidden;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.09);
+    border-top:3px solid var(--ink-faint);
+  }
+  .sec-on .team-card{ border-top-color:var(--green); }
+  .sec-non .team-card{ border-top-color:var(--red); }
+
+  .team-head{
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px 16px;
+    padding:24px 28px 6px;
+  }
+  .team-head h3{ font-size:clamp(20px,2.4vw,26px); font-weight:800; letter-spacing:-.02em; }
+  .links{ display:flex; gap:8px; margin-left:auto; flex-wrap:wrap; }
+  .links a{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:13.5px; font-weight:600; text-decoration:none;
+    color:var(--ink-dim); background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.12); border-radius:999px;
+    padding:7px 14px;
+    transition:color .25s var(--ease), border-color .25s var(--ease);
+  }
+  .links a:hover{ color:var(--ink); border-color:rgba(255,255,255,.3); }
+  .team-body{ padding:14px 28px 26px; display:grid; gap:20px; }
+  .two-col{ grid-template-columns:1.1fr 1fr; }
+  @media (max-width:820px){ .two-col{ grid-template-columns:1fr; } }
+
+  .capture{ display:block; }
+  .capture img{
+    width:100%; display:block; border-radius:12px;
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 12px 40px rgba(0,0,0,.45);
+  }
+  .capture .cap{ margin-top:8px; font-size:12.5px; color:var(--ink-faint); text-align:center; }
+
+  .team-body p.desc{ color:var(--ink-dim); font-size:15.5px; line-height:1.75; }
+  .team-body h4{
+    font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:10px;
+  }
+  .process{ list-style:none; display:grid; gap:9px; }
+  .process li{
+    position:relative; padding-left:18px;
+    font-size:14.5px; line-height:1.65; color:var(--ink-dim);
+  }
+  .process li::before{
+    content:""; position:absolute; left:0; top:.62em;
+    width:7px; height:7px; border-radius:50%;
+    background:var(--ink-faint);
+  }
+  .sec-on .process li::before{ background:var(--green); opacity:.7; }
+  .sec-non .process li::before{ background:var(--red); opacity:.7; }
+  .quote{
+    border-left:2.5px solid var(--ink-faint);
+    padding:2px 0 2px 16px; margin-top:14px;
+    font-size:15px; line-height:1.75; color:var(--ink); opacity:.92;
+  }
+  .sec-on .quote{ border-left-color:var(--green); }
+  .sec-non .quote{ border-left-color:var(--red); }
+  .quote small{ display:block; margin-top:6px; color:var(--ink-faint); font-size:12.5px; }
+
+  footer{
+    max-width:1100px; margin:0 auto; padding:44px 32px 90px;
+    text-align:center; color:var(--ink-faint); font-size:13.5px; line-height:1.9;
+  }
+  footer a{ color:var(--ink-dim); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">2026 수업 나눔 · 학생 프로젝트 쇼케이스</div>
+  <h1><span class="green">On AI</span>와 <span class="red">Non AI</span>,<br>학생들이 만든 것들</h1>
+  <p class="sub">두 수업에서 나온 프로젝트 가운데 여섯 팀을 골라,<br>
+  결과물과 함께 깃허브에 남은 과정의 기록과 성찰을 정리했습니다.</p>
+</header>
+
+<!-- ═══════════════ On AI ═══════════════ -->
+<div class="sec-on">
+  <div class="section-head sec-on">
+    <h2>On AI</h2><span class="tag">바이브 코딩 · 데이터 분석</span>
+    <span class="note">인공지능 기초 — 공공데이터 분석 웹앱 (Streamlit)</span>
+  </div>
+
+  <div class="team">
+    <div class="team-card">
+      <div class="team-head">
+        <h3>🦠 날씨와 독감 환자 수의 상관관계 분석</h3>
+        <div class="links">
+          <a href="https://influenza.streamlit.app/" target="_blank" rel="noopener">결과물 ↗</a>
+          <a href="https://github.com/dg2025825-arch/-" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="team-body two-col">
+        <a class="capture" href="https://influenza.streamlit.app/" target="_blank" rel="noopener">
+          <img src="assets/captures/showcase/on1-influenza.png" alt="계절별 독감 발생률 분석 웹앱 화면">
+          <div class="cap">계절별 독감 발생률 분석 — 시즌별 ILI 주간 추이</div>
+        </a>
+        <div>
+          <h4>과정</h4>
+          <ul class="process">
+            <li>질병관리청 인플루엔자 의사환자(ILI) 분율 12개 시즌 + 기상청 서울 기온 데이터를 직접 수집해 결합했습니다.</li>
+            <li>역할을 나눠 데이터 찾기·페이지 구상·AI 활용을 분담하고, 계절별 발생 패턴과 기온의 상관관계를 시각화했습니다.</li>
+            <li>"어떤 프롬프트를 입력해야 원하는 답이 나올까"를 반복해서 고민하며 그래프 구현과 오류 해결에 가장 공을 들였습니다.</li>
+          </ul>
+          <div class="quote">직접 페이지 주제·내용·기능을 팀원과 함께 구상하며 소통 능력이 성장했고, AI의 답변을 비판적으로 바라보는 관점도 키웠습니다.
+            <small>— 팀원 성찰에서</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="team">
+    <div class="team-card">
+      <div class="team-head">
+        <h3>💧 지역별로 물맛이 다른가?</h3>
+        <div class="links">
+          <a href="https://waterpractice.streamlit.app/" target="_blank" rel="noopener">결과물 ↗</a>
+          <a href="https://github.com/leeeunwoo7412-ctrl/water" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="team-body two-col">
+        <a class="capture" href="https://waterpractice.streamlit.app/" target="_blank" rel="noopener">
+          <img src="assets/captures/showcase/on2-water.png" alt="수돗물 화학 성분과 물맛 분석 웹앱 화면">
+          <div class="cap">수돗물의 화학 성분이 결정하는 물맛과 보건학적 영향</div>
+        </a>
+        <div>
+          <h4>과정</h4>
+          <ul class="process">
+            <li>전국 광역시·지자체 상수도사업본부의 공식 수질 성적표를 전수 조사해 경도·pH·이온 함량 데이터로 정량화했습니다.</li>
+            <li>일별 데이터만 있는 지역을 제외하는 등 "어떤 데이터를 항목으로 쓸지"를 두고 가장 오래 고민했습니다.</li>
+            <li>화학 성분과 물맛·보건학적 영향을 잇는 멀티페이지 분석 웹앱으로 완성했습니다.</li>
+          </ul>
+          <div class="quote">웹앱을 빠르게 만들어내는 것보다, 어떤 데이터를 선택하고 비교할지 결정하는 과정이 훨씬 중요하다는 것을 배웠습니다.
+            <small>— 팀원 성찰에서</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="team">
+    <div class="team-card">
+      <div class="team-head">
+        <h3>🚇 그래프 이론 기반 지하철 이용 패턴 시각화</h3>
+        <div class="links">
+          <a href="https://danggok-subway.streamlit.app/" target="_blank" rel="noopener">결과물 ↗</a>
+          <a href="https://github.com/dg2025429-dot/project_1" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="team-body two-col">
+        <a class="capture" href="https://danggok-subway.streamlit.app/" target="_blank" rel="noopener">
+          <img src="assets/captures/showcase/on3-subway.png" alt="서울 지하철 혼잡도 분석 웹앱 화면">
+          <div class="cap">서울 지하철 혼잡도 분석 — 역 245개 · 8개 호선 · 1,671행</div>
+        </a>
+        <div>
+          <h4>과정</h4>
+          <ul class="process">
+            <li>서울교통공사 혼잡도 공공데이터로 역·호선·요일·시간대별 이용 패턴을 분석했습니다.</li>
+            <li>수학의 그래프 이론과 연결해, 혼잡할수록 붉어지는 히트맵과 혼잡역 TOP10 차트를 설계했습니다.</li>
+            <li>파일 이름 불일치로 특정 호선만 나오던 오류를 추적해 해결하며 데이터 전처리의 중요성을 체감했습니다.</li>
+          </ul>
+          <div class="quote">에러가 날 때는 답답했지만, 친구들과 협력하고 서로 보완하며 완성하니 혼자였으면 어려웠을 과정에서 더 좋은 결과물이 나왔습니다.
+            <small>— 팀원 성찰에서</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ Non AI ═══════════════ -->
+<div class="sec-non">
+  <div class="section-head sec-non">
+    <h2>Non AI</h2><span class="tag">손 코딩 · VPython</span>
+    <span class="note">3D 물리 시뮬레이션·게임 (GlowScript)</span>
+  </div>
+
+  <div class="team">
+    <div class="team-card">
+      <div class="team-head">
+        <h3>👾 서박이 프로젝트 — 외계인 두더지 게임</h3>
+        <div class="links">
+          <a href="https://www.glowscript.org/#/user/dg2026823/folder/MyPrograms/program/%EC%99%B8%EA%B3%84%EC%9D%B8" target="_blank" rel="noopener">결과물 ↗</a>
+          <a href="https://github.com/sehyunn1/spi_game" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="team-body">
+        <p class="desc">팀원들의 이름을 한 글자씩 딴 자작 외계인 캐릭터 '서박이'가 박스에서 튀어나오면 망치로 잡는, 두더지 게임의 원리를 파이썬으로 파헤친 프로젝트입니다.</p>
+        <div>
+          <h4>깃허브에 남은 4주의 기록</h4>
+          <ul class="process">
+            <li><b>1일차</b> — 망치 도구와 박스의 형태를 만들다 구멍 뚫는 코드에서 막혔습니다.</li>
+            <li><b>2일차</b> — 구멍을 포기하는 대신 박스로 캐릭터를 가리는 "타협점"을 찾으며, 도움말 대신 조원·선생님과 이야기해 한계를 넘는 법을 배웠습니다.</li>
+            <li><b>3일차</b> — 머리만 움직이던 캐릭터를 compound로 묶어 해결하고, 조건문으로 움직임을 제어했습니다.</li>
+            <li><b>4일차</b> — 캐릭터 6개를 모두 움직이는 대신 2개에 집중하기로 범위를 조정하며 완성도를 지켰습니다.</li>
+          </ul>
+          <div class="quote">게임을 만드는 일이 이렇게 고된 일임을 깨달으며 게임 프로그래밍을 업으로 삼는 이들을 리스펙하게 되었고, 문제를 헤쳐 나가며 완성도가 올라갈 때 뿌듯함을 느낍니다.
+            <small>— 수행 기록(log.md) 3일차에서</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="team">
+    <div class="team-card">
+      <div class="team-head">
+        <h3>🎯 물리와 결합한 링 러너</h3>
+        <div class="links">
+          <a href="https://www.glowscript.org/#/user/dg2026503/folder/%EC%88%98%ED%96%89/program/%EC%A3%BC%EB%8C%95%EC%B9%98" target="_blank" rel="noopener">결과물 ↗</a>
+          <a href="https://github.com/dg2026503/sieun-yunji-Project" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="team-body">
+        <p class="desc">좋아하는 캐릭터를 compound로 직접 조립하고, 방향키로 조작해 크기가 다른 링들을 통과시키는 3D 게임입니다. 링에 닿으면 Game Over — 충돌 판정까지 손으로 구현했습니다.</p>
+        <div>
+          <h4>깃허브에 남은 기록</h4>
+          <ul class="process">
+            <li>compound와 keysDown()으로 캐릭터 조립과 x·y·z축 이동을 단계적으로 완성했습니다.</li>
+            <li>시작하자마자 Game Over가 뜨는 버그를 만나, if 조건문과 and 연산자로 좌표 범위를 좁혀 가며 충돌 판정을 바로잡았습니다.</li>
+            <li>막히면 교재와 예제로 먼저 스스로 시도하고, 그래도 안 되면 선생님께 질문하는 순서로 해결했습니다.</li>
+          </ul>
+          <div class="quote">간단해 보였던 기능도 실제로 구현해 보니 생각보다 많은 조건과 계산이 필요했습니다. 작은 실수 하나로도 결과가 달라져 어려웠지만, 그만큼 논리적으로 조건을 설계하는 힘이 중요함을 느꼈습니다.
+            <small>— 수행 기록(log.md)에서</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="team">
+    <div class="team-card">
+      <div class="team-head">
+        <h3>🦠 감염병 확산 시뮬레이션</h3>
+        <div class="links">
+          <a href="https://www.glowscript.org/#/user/dg2026512/folder/MyPrograms/program/%EB%8D%94" target="_blank" rel="noopener">결과물 ↗</a>
+          <a href="https://github.com/dg512/project5" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="team-body">
+        <p class="desc">바이러스학에 관심 있는 학생들이 감염병 전파를 눈으로 보이게 만든 시뮬레이션입니다. 하얀 공 사이를 돌아다니는 빨간 공이 닿는 공마다 감염시키고, 키를 누르면 "사회적 거리두기"로 확산 속도가 느려집니다.</p>
+        <div>
+          <h4>깃허브에 남은 8일의 기록</h4>
+          <ul class="process">
+            <li>두 원의 중심 거리와 반지름 합을 비교하는 수학으로 감염(충돌) 판정을 구현했습니다.</li>
+            <li>닿지 않아도 감염되던 버그를 리스트를 새로 설계해 잡고, 복잡했던 거리식을 제곱 연산자로 간결하게 다듬었습니다.</li>
+            <li>선생님 코드를 그대로 쓰지 않고 "모든 빨간 공이 감염시키게" 직접 고쳐 쓰며 8일차까지 감염자 수 카운터에 도전했습니다.</li>
+          </ul>
+          <div class="quote">계획할 때는 쉽게 코딩할 수 있을 줄 알았는데 생각보다 너무 어려웠습니다. 그래도 막연했던 아이디어를 직접 구현하며, 시뮬레이션 하나에 고려할 것이 얼마나 많은지 배웠습니다.
+            <small>— 수행 기록(log.md)과 성찰에서</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>과정 기록과 성찰은 각 팀의 깃허브 log.md·README와 프로젝트 보고서에서 발췌해 다듬었습니다.</p>
+  <p><a href="onai-nonai-voices.html">학생들의 소감 전문 보기</a> · <a href="onai-nonai-keynote.html">← 키노트로 돌아가기</a></p>
+</footer>
+
+</body>
+</html>
